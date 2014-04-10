@@ -15,14 +15,10 @@ import java.util.Random;
 import java.util.ArrayList;
 
 public class MainActivity extends Activity {
-    Animation arisGlow;
-    Animation textIn;
-    Animation textIn2;
-    Animation textIn3;
-    ArrayList<TextView> arisText;
-
-
-    int counter;
+    private Animation arisGlow;
+    private ArrayList<TextView> arisText;
+    private ArrayList<Animation> textIn;
+    private int counter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,9 +28,10 @@ public class MainActivity extends Activity {
 
         //load Animations
         arisGlow = AnimationUtils.loadAnimation(this,R.anim.aris_glow);
-        textIn = AnimationUtils.loadAnimation(this,R.anim.text_in);
-        textIn2 = AnimationUtils.loadAnimation(this,R.anim.text_in);
-        textIn3 = AnimationUtils.loadAnimation(this,R.anim.text_in);
+        textIn = new ArrayList<Animation>();
+        textIn.add(AnimationUtils.loadAnimation(this,R.anim.text_in));
+        textIn.add(AnimationUtils.loadAnimation(this,R.anim.text_in));
+        textIn.add(AnimationUtils.loadAnimation(this,R.anim.text_in));
 
         //Initialize the 3 lines of ArisText
         initializeArisText();
@@ -44,7 +41,6 @@ public class MainActivity extends Activity {
         glow.startAnimation(arisGlow);
 
         //counter for Aris Text
-
         counter=0;
 
 
@@ -52,7 +48,6 @@ public class MainActivity extends Activity {
 
     public void initializeArisText(){
         arisText = new ArrayList<TextView>();
-
 
         //put them into the array list for future manipulation
         arisText.add((TextView) findViewById(R.id.arisTextView1));
@@ -68,56 +63,18 @@ public class MainActivity extends Activity {
         arisText.get(1).setText(line2);
         arisText.get(2).setText(line3);
     }
+
     public void onResume(){
         super.onResume();
         final Handler handler=new Handler();
-
         handler.post(new Runnable(){
-
-            @Override
             public void run() {
-                    if(counter<arisText.size()) {
-                        //TextView currentText = arisText.get(counter);
-                        //currentText.clearAnimation();
-
-
-                       // currentText.setVisibility(TextView.VISIBLE);
-                        //currentText.startAnimation(textIn);
-                        if(counter==0){
-                            TextView text1 = (TextView) findViewById(R.id.arisTextView1);
-                            text1.startAnimation(textIn);
-                        }
-                        if(counter==1){
-                            TextView text2 = (TextView) findViewById(R.id.arisTextView2);
-                            text2.startAnimation(textIn2);
-                        }
-                        if(counter==2){
-                            TextView text3 = (TextView) findViewById(R.id.arisTextView3);
-                            text3.startAnimation(textIn3);
-                        }
-
-                        counter++;
-
-                    }
-
-
-
+                if(counter<arisText.size()) {
+                    arisText.get(counter).startAnimation(textIn.get(counter));
+                    counter++;
+                }
                 handler.postDelayed(this,1000); // set time here to refresh textView
-
             }
-
         });
-
-    }
-
-    @Override
-    public boolean onTouchEvent(MotionEvent e) {
-        // MotionEvent reports input details from the touch screen
-        // and other input controls. In this case, you are only
-        // interested in events where the touch position changed.
-
-
-
-        return true;
     }
 }
