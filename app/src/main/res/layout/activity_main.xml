@@ -1,0 +1,81 @@
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="1"
+        style="@style/AppTheme"
+        android:id="@+id/first">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView"
+            android:layout_gravity="center"
+            android:src="@drawable/aris" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/glowImageView"
+            android:layout_gravity="center"
+            android:src="@drawable/arisglow"
+/>
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="1"
+        style="@style/AppTheme">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Hi There!"
+            android:id="@+id/arisTextView1"
+            android:layout_gravity="center|top"
+            android:fontFamily="sans-serif-thin"
+            android:textSize="32dp"
+            android:longClickable="false"
+            android:maxWidth="300dp"
+            android:textAlignment="center" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="I'm Aris."
+            android:id="@+id/arisTextView2"
+            android:layout_gravity="center"
+            android:fontFamily="sans-serif-thin"
+            android:textSize="32dp"
+            android:longClickable="false"
+            android:maxWidth="300dp"
+            android:textAlignment="center" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="And I'm here to help."
+            android:id="@+id/textView2"
+            android:layout_gravity="center_horizontal|bottom"
+            android:fontFamily="sans-serif-thin"
+            android:textSize="32dp"
+            android:longClickable="false"
+            android:maxWidth="300dp"
+            android:textAlignment="center" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="1"
+        style="@style/AppTheme"></FrameLayout>
+</LinearLayout>
