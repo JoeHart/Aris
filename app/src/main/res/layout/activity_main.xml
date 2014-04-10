@@ -33,49 +33,87 @@
         android:layout_weight="1"
         style="@style/AppTheme">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Hi There!"
-            android:id="@+id/arisTextView1"
-            android:layout_gravity="center|top"
-            android:fontFamily="sans-serif-thin"
-            android:textSize="32dp"
-            android:longClickable="false"
-            android:maxWidth="300dp"
-            android:textAlignment="center" />
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="I'm Aris."
-            android:id="@+id/arisTextView2"
-            android:layout_gravity="center"
-            android:fontFamily="sans-serif-thin"
-            android:textSize="32dp"
-            android:longClickable="false"
-            android:maxWidth="300dp"
-            android:textAlignment="center" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Hi There!"
+                android:id="@+id/arisTextView1"
+                android:layout_gravity="center|top"
+                android:fontFamily="sans-serif-thin"
+                android:textSize="32dp"
+                android:longClickable="false"
+                android:maxWidth="300dp"
+                android:textAlignment="center"
+                android:visibility="invisible" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="And I'm here to help."
-            android:id="@+id/textView2"
-            android:layout_gravity="center_horizontal|bottom"
-            android:fontFamily="sans-serif-thin"
-            android:textSize="32dp"
-            android:longClickable="false"
-            android:maxWidth="300dp"
-            android:textAlignment="center" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="I'm Aris."
+                android:id="@+id/arisTextView2"
+                android:layout_gravity="center"
+                android:fontFamily="sans-serif-thin"
+                android:textSize="32dp"
+                android:longClickable="false"
+                android:maxWidth="300dp"
+                android:textAlignment="center" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="And I'm here to help."
+                android:id="@+id/arisTextView3"
+                android:layout_gravity="center_horizontal|bottom"
+                android:fontFamily="sans-serif-thin"
+                android:textSize="32dp"
+                android:longClickable="false"
+                android:maxWidth="300dp"
+                android:textAlignment="center" />
+        </LinearLayout>
     </FrameLayout>
 
     <FrameLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_weight="1"
-        style="@style/AppTheme"></FrameLayout>
+        style="@style/AppTheme">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:text="New Button"
+                android:id="@+id/button"
+                android:layout_gravity="center_horizontal|top"
+                android:layout_weight="1" />
+
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:text="New Button"
+                android:id="@+id/button2"
+                android:layout_gravity="center"
+                android:layout_weight="1" />
+
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:text="New Button"
+                android:id="@+id/button3"
+                android:layout_gravity="center_horizontal|bottom"
+                android:layout_weight="1" />
+        </LinearLayout>
+    </FrameLayout>
 </LinearLayout>
