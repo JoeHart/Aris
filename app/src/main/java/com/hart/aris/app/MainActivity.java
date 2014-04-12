@@ -19,8 +19,9 @@ public class MainActivity extends Activity {
     private ArrayList<TextView> arisText;
     private ArrayList<Animation> textIn;
     private int counter;
+    public MessageManager msgManager;
+    public ArisTextManager arisTextManager;
 
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //Load dumb GUI
@@ -36,6 +37,11 @@ public class MainActivity extends Activity {
         //Initialize the 3 lines of ArisText
         initializeArisText();
 
+        //check for a message
+        msgManager = new MessageManager();
+
+
+
         //Start the Aris glowing
         ImageView glow = (ImageView) findViewById(R.id.glowImageView);
         glow.startAnimation(arisGlow);
@@ -48,7 +54,7 @@ public class MainActivity extends Activity {
 
     public void initializeArisText(){
         arisText = new ArrayList<TextView>();
-
+        arisTextManager = new ArisTextManager();
         //put them into the array list for future manipulation
         arisText.add((TextView) findViewById(R.id.arisTextView1));
         arisText.add((TextView) findViewById(R.id.arisTextView2));
@@ -66,6 +72,8 @@ public class MainActivity extends Activity {
 
     public void onResume(){
         super.onResume();
+
+
         final Handler handler=new Handler();
         handler.post(new Runnable(){
             public void run() {
