@@ -1,20 +1,16 @@
 package com.hart.aris.app;
 
-import android.app.Activity;
 import android.os.Bundle;
-import android.opengl.GLSurfaceView;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.view.animation.Animation;
 import android.widget.TextView;
-import android.view.MotionEvent;
 import android.os.Handler;
-import android.content.Intent;
-import java.util.Random;
+import android.support.v4.app.FragmentActivity;
 
 import java.util.ArrayList;
 
-public class MainActivity extends Activity {
+public class MainActivity extends FragmentActivity {
     private Animation arisGlow;
     private ArrayList<TextView> arisTextViews;
     private String[] currentText;
@@ -40,7 +36,7 @@ public class MainActivity extends Activity {
 
         //check for a message
         msgManager = new MessageManager();
-
+        msgManager.addMessage("This is a test message.","I really hope it works","If not I'm fucked");
 
 
         //Start the Aris glowing
@@ -49,6 +45,32 @@ public class MainActivity extends Activity {
 
         //counter for Aris Text
         counter=0;
+
+
+        ///fragment shizzle
+// Check that the activity is using the layout version with
+        // the fragment_container FrameLayout
+        if (findViewById(R.id.answerContainer) != null) {
+
+            // However, if we're being restored from a previous state,
+            // then we don't need to do anything and should return or else
+            // we could end up with overlapping fragments.
+            if (savedInstanceState != null) {
+                return;
+            }
+
+            // Create a new Fragment to be placed in the activity layout
+            HoursAnswer firstFragment = new HoursAnswer();
+
+            // In case this activity was started with special instructions from an
+            // Intent, pass the Intent's extras to the fragment as arguments
+            firstFragment.setArguments(getIntent().getExtras());
+
+            // Add the fragment to the 'fragment_container' FrameLayout
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.answerContainer, firstFragment).commit();
+        }
+
 
 
     }

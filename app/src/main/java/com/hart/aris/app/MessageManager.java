@@ -17,7 +17,7 @@ public class MessageManager {
 
     public String[] getMessage(){
         if(messageQueue.size()>0){
-            return messageQueue.getFirst();
+            return messageQueue.poll();
         } else {
             return null;
         }

@@ -1,4 +1,4 @@
-<LinearLayout
+<LinearLayout xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
@@ -87,36 +87,8 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_weight="1"
+        android:id="@+id/answerContainer"
         style="@style/AppTheme">
 
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
-
-            <Button
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:text="New Button"
-                android:id="@+id/button"
-                android:layout_gravity="center_horizontal|top"
-                android:layout_weight="1" />
-
-            <Button
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:text="New Button"
-                android:id="@+id/button2"
-                android:layout_gravity="center"
-                android:layout_weight="1" />
-
-            <Button
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:text="New Button"
-                android:id="@+id/button3"
-                android:layout_gravity="center_horizontal|bottom"
-                android:layout_weight="1" />
-        </LinearLayout>
     </FrameLayout>
 </LinearLayout>
