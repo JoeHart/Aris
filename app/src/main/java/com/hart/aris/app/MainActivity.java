@@ -60,8 +60,13 @@ public class MainActivity extends Activity {
         arisTextViews.add((TextView) findViewById(R.id.arisTextView1));
         arisTextViews.add((TextView) findViewById(R.id.arisTextView2));
         arisTextViews.add((TextView) findViewById(R.id.arisTextView3));
+        hideArisText();
+    }
+
+    public void hideArisText(){
         for(TextView t: arisTextViews){
             t.setVisibility(TextView.INVISIBLE);
+            t.setAlpha(0.0f);
         }
     }
 
@@ -77,7 +82,7 @@ public class MainActivity extends Activity {
 
     public void onResume(){
         super.onResume();
-
+        counter=0;
         //check message manager for messages
         if(msgManager.isEmpty()){
             //display default message
@@ -91,11 +96,17 @@ public class MainActivity extends Activity {
         handler.post(new Runnable(){
             public void run() {
                 if(counter<arisTextViews.size()) {
+                    arisTextViews.get(counter).setAlpha(1.0f);
                     arisTextViews.get(counter).startAnimation(textIn.get(counter));
                     counter++;
                 }
                 handler.postDelayed(this,1000); // set time here to refresh textView
             }
         });
+    }
+
+    public void onPause(){
+        super.onPause();
+        hideArisText();
     }
 }

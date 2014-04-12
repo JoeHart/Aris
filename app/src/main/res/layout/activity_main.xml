@@ -39,7 +39,7 @@
             android:layout_height="fill_parent">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Hi There!"
@@ -50,10 +50,11 @@
                 android:longClickable="false"
                 android:maxWidth="300dp"
                 android:textAlignment="center"
-                android:visibility="invisible" />
+                android:visibility="invisible"
+                android:gravity="center" />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="I'm Aris."
@@ -63,10 +64,11 @@
                 android:textSize="32dp"
                 android:longClickable="false"
                 android:maxWidth="300dp"
-                android:textAlignment="center" />
+                android:textAlignment="center"
+                android:gravity="center" />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="And I'm here to help."
@@ -76,7 +78,8 @@
                 android:textSize="32dp"
                 android:longClickable="false"
                 android:maxWidth="300dp"
-                android:textAlignment="center" />
+                android:textAlignment="center"
+                android:gravity="center" />
         </LinearLayout>
     </FrameLayout>
 
