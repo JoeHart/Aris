@@ -9,13 +9,13 @@ import java.util.Queue;
  */
 public class MessageManager {
 
-    LinkedList<String> messageQueue;
+    LinkedList<String[]> messageQueue;
 
     public MessageManager(){
-        messageQueue = new LinkedList<String>();
+        messageQueue = new LinkedList<String[]>();
     }
 
-    public String getMessage(){
+    public String[] getMessage(){
         if(messageQueue.size()>0){
             return messageQueue.getFirst();
         } else {
@@ -23,8 +23,14 @@ public class MessageManager {
         }
     }
 
-    public boolean addMessage(String s){
+    public boolean addMessage(String[] s){
         return messageQueue.add(s);
+    }
+
+    public boolean addMessage(String s1, String s2, String s3){
+        String[] s = {s1,s2,s3};
+        return addMessage(s);
+
     }
 
     public boolean isEmpty(){
