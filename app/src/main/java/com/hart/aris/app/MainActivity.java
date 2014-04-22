@@ -2,16 +2,15 @@ package com.hart.aris.app;
 
 import android.os.Bundle;
 import android.view.animation.AnimationUtils;
-import android.widget.ImageView;
 import android.view.animation.Animation;
 import android.widget.TextView;
 import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
+//import android.app.Fragment;
 
 import java.util.ArrayList;
 
 public class MainActivity extends FragmentActivity {
-    private Animation arisGlow;
     private ArrayList<TextView> arisTextViews;
     private String[] currentText;
     private ArrayList<Animation> textIn;
@@ -25,7 +24,6 @@ public class MainActivity extends FragmentActivity {
         setContentView(R.layout.activity_main);
 
         //load Animations
-        arisGlow = AnimationUtils.loadAnimation(this,R.anim.aris_glow);
         textIn = new ArrayList<Animation>();
         textIn.add(AnimationUtils.loadAnimation(this,R.anim.text_in));
         textIn.add(AnimationUtils.loadAnimation(this,R.anim.text_in));
@@ -39,9 +37,6 @@ public class MainActivity extends FragmentActivity {
         msgManager.addMessage("This is a test message.","I really hope it works","If not I'm fucked");
 
 
-        //Start the Aris glowing
-        ImageView glow = (ImageView) findViewById(R.id.glowImageView);
-        glow.startAnimation(arisGlow);
 
         //counter for Aris Text
         counter=0;
@@ -60,15 +55,19 @@ public class MainActivity extends FragmentActivity {
             }
 
             // Create a new Fragment to be placed in the activity layout
-            HoursAnswer firstFragment = new HoursAnswer();
+            HoursAnswerFragment firstFragment = new HoursAnswerFragment();
+
+
+            //Aris Fragment
+            ArisTriangleFragment arisTriangleFragment = new ArisTriangleFragment();
 
             // In case this activity was started with special instructions from an
             // Intent, pass the Intent's extras to the fragment as arguments
-            firstFragment.setArguments(getIntent().getExtras());
+           // firstFragment.setArguments(getIntent().getExtras());
+            //getSupportFragmentManager().beginTransaction().add(R.id.answerContainer, firstFragment);
+            getSupportFragmentManager().beginTransaction().add(R.id.answerContainer,firstFragment).commit();
 
-            // Add the fragment to the 'fragment_container' FrameLayout
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.answerContainer, firstFragment).commit();
+            getSupportFragmentManager().beginTransaction().add(R.id.arisTriangleContainer, arisTriangleFragment).commit();
         }
 
 
