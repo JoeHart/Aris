@@ -4,10 +4,20 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
+import android.view.View.OnClickListener;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.Fragment;
+import android.content.Intent;
+
 import com.hart.aris.app.R;
 
-public class RevisionCheck extends ActionBarActivity {
+import java.util.ArrayList;
 
+public class RevisionCheck extends FragmentActivity {
+    private ArrayList<TextView> arisTextViews;
+    RevisionCheckAnswerFragment answerFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,8 +38,8 @@ public class RevisionCheck extends ActionBarActivity {
             }
 
             // Create a new Fragment to be placed in the activity layout
-            HoursAnswerFragment firstFragment = new HoursAnswerFragment();
-
+            answerFragment = new RevisionCheckAnswerFragment();
+            initializeArisText();
 
             //Aris Fragment
             ArisTriangleFragment arisTriangleFragment = new ArisTriangleFragment();
@@ -38,10 +48,37 @@ public class RevisionCheck extends ActionBarActivity {
             // Intent, pass the Intent's extras to the fragment as arguments
             // firstFragment.setArguments(getIntent().getExtras());
             //getSupportFragmentManager().beginTransaction().add(R.id.answerContainer, firstFragment);
-            getSupportFragmentManager().beginTransaction().add(R.id.answerContainer,firstFragment).commit();
+            getSupportFragmentManager().beginTransaction().add(R.id.answerContainer,answerFragment).commit();
 
             getSupportFragmentManager().beginTransaction().add(R.id.arisTriangleContainer, arisTriangleFragment).commit();
         }
+    }
+
+    public void onPause(){
+        super.onPause();
+        finish();
+    }
+
+    public void initializeArisText(){
+        arisTextViews = new ArrayList<TextView>();
+        //put them into the array list for future manipulation
+        arisTextViews.add((TextView) findViewById(R.id.arisTextView1));
+        arisTextViews.add((TextView) findViewById(R.id.arisTextView2));
+        arisTextViews.add((TextView) findViewById(R.id.arisTextView3));
+
+    }
+
+    public void hideArisText(){
+        for(TextView t: arisTextViews){
+            t.setVisibility(TextView.INVISIBLE);
+            t.setAlpha(0.0f);
+        }
+    }
+
+    public void setArisText(String line1, String line2, String line3){
+        arisTextViews.get(0).setText(line1);
+        arisTextViews.get(1).setText(line2);
+        arisTextViews.get(2).setText(line3);
     }
 
 
@@ -63,6 +100,50 @@ public class RevisionCheck extends ActionBarActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void positiveResponse(View view){
+
+        setArisText("Awesome! Good Work!","Keep it up!","");
+        //TODO: Implement storage of positive response
+        //Fragment remove = answerFragment;
+        clearAnswer();
+    }
+
+    public void clearAnswer(){
+        getSupportFragmentManager().beginTransaction().
+                remove(getSupportFragmentManager().findFragmentById(R.id.answerContainer)).commit();
+    }
+
+    public void neutralResponse(View view){
+        setArisText("Oh no.","Why's that?","");
+        clearAnswer();
+        ReasonBadQuestion newAnswer = new ReasonBadQuestion();
+        getSupportFragmentManager().beginTransaction().add(R.id.answerContainer, newAnswer).commit();
+
+    }
+
+    public void notResponse(View view){
+        //TODO: Check if they should be revising at the moment
+        //If so ask why they arent?
+
+        //if not ask when they will next
+        setArisText("When will you","revise next?","");
+        clearAnswer();
+
+
+    }
+
+    public void distractedResponse(View view){
+        //TODO: recommend distraction techniques
+    }
+
+    public void boredResponse(View view){
+        //TODO: Fetch ted talk to do with persons subject
+    }
+
+    public void terribleResponse(View view){
+        //TODO: Advise excercise, sun and eating healthily.
     }
 
 }

@@ -28,7 +28,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Hi There!"
+                android:text="How's the"
                 android:id="@+id/arisTextView1"
                 android:layout_gravity="center|top"
                 android:fontFamily="sans-serif-thin"
@@ -36,14 +36,14 @@
                 android:longClickable="false"
                 android:maxWidth="300dp"
                 android:textAlignment="center"
-                android:visibility="invisible"
+                android:visibility="visible"
                 android:gravity="center" />
 
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="I'm Aris."
+                android:text="revision going?"
                 android:id="@+id/arisTextView2"
                 android:layout_gravity="center"
                 android:fontFamily="sans-serif-thin"
@@ -57,7 +57,6 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="And I'm here to help."
                 android:id="@+id/arisTextView3"
                 android:layout_gravity="center_horizontal|bottom"
                 android:fontFamily="sans-serif-thin"

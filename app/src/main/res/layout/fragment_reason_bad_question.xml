@@ -1,0 +1,37 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.hart.aris.app.ReasonBadQuestion">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:text="I keep getting distracted"
+            android:id="@+id/distractedButton"
+            android:layout_weight="1"
+            android:onClick="distractedResponse" />
+
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:text="I'm bored"
+            android:id="@+id/boredButton"
+            android:layout_weight="1"
+            android:onClick="boredResponse"/>
+
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:text="I feel terrible"
+            android:id="@+id/terribleButton"
+            android:layout_weight="1"
+            android:onClick="terribleResponse"/>
+    </LinearLayout>
+
+</FrameLayout>
