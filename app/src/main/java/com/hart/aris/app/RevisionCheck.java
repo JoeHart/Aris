@@ -1,5 +1,6 @@
 package com.hart.aris.app;
 
+import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -15,9 +16,8 @@ import com.hart.aris.app.R;
 
 import java.util.ArrayList;
 
-public class RevisionCheck extends FragmentActivity {
+public class RevisionCheck extends FragmentActivity implements AnswerFragment.OnFragmentInteractionListener {
     private ArrayList<TextView> arisTextViews;
-    RevisionCheckAnswerFragment answerFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,7 +38,9 @@ public class RevisionCheck extends FragmentActivity {
             }
 
             // Create a new Fragment to be placed in the activity layout
-            answerFragment = new RevisionCheckAnswerFragment();
+           // answerFragment = new RevisionCheckAnswerFragment();
+            AnswerFragment firstAnswer = AnswerFragment.newInstance("Great!","positiveResponse","Alright","neutralResponse","I'm not revising.","notResponse");
+
             initializeArisText();
 
             //Aris Fragment
@@ -48,7 +50,7 @@ public class RevisionCheck extends FragmentActivity {
             // Intent, pass the Intent's extras to the fragment as arguments
             // firstFragment.setArguments(getIntent().getExtras());
             //getSupportFragmentManager().beginTransaction().add(R.id.answerContainer, firstFragment);
-            getSupportFragmentManager().beginTransaction().add(R.id.answerContainer,answerFragment).commit();
+            getSupportFragmentManager().beginTransaction().add(R.id.answerContainer,firstAnswer).commit();
 
             getSupportFragmentManager().beginTransaction().add(R.id.arisTriangleContainer, arisTriangleFragment).commit();
         }
@@ -118,7 +120,13 @@ public class RevisionCheck extends FragmentActivity {
     public void neutralResponse(View view){
         setArisText("Oh no.","Why's that?","");
         clearAnswer();
-        ReasonBadQuestion newAnswer = new ReasonBadQuestion();
+        //ReasonBadQuestion newAnswer = new ReasonBadQuestion();
+        AnswerFragment newAnswer =
+                AnswerFragment.newInstance(
+                        "I keep getting distracted", "distractedResponse",
+                        "I'm bored", "boredResponse",
+                        "I feel terrible","terribleResponse"
+                );
         getSupportFragmentManager().beginTransaction().add(R.id.answerContainer, newAnswer).commit();
 
     }
@@ -136,14 +144,20 @@ public class RevisionCheck extends FragmentActivity {
 
     public void distractedResponse(View view){
         //TODO: recommend distraction techniques
+        clearAnswer();
     }
 
     public void boredResponse(View view){
         //TODO: Fetch ted talk to do with persons subject
+        clearAnswer();
     }
 
     public void terribleResponse(View view){
         //TODO: Advise excercise, sun and eating healthily.
+        clearAnswer();
     }
+    public void onFragmentInteraction(Uri uri){
+        clearAnswer();
 
+    }
 }

@@ -1,0 +1,39 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.hart.aris.app.AnswerFragment">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/buttonContainer">
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:text="Text 1"
+            android:id="@+id/button1"
+            android:layout_weight="1"
+            android:onClick="positiveResponse" />
+
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:text="Text 2"
+            android:id="@+id/button2"
+            android:layout_weight="1"
+            android:onClick="neutralResponse"/>
+
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:text="Text 3"
+            android:id="@+id/button3"
+            android:layout_weight="1"
+            android:onClick="notResponse"/>
+
+
+    </LinearLayout>
+
+</FrameLayout>
