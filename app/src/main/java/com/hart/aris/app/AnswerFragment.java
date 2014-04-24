@@ -77,36 +77,28 @@ public class AnswerFragment extends Fragment {
             Button buttonView1 =(Button) this.getView().findViewById(R.id.button1);
             Button buttonView2 =(Button) this.getView().findViewById(R.id.button2);
             Button buttonView3 =(Button) this.getView().findViewById(R.id.button3);
-            /*try {
-                this.getResources().getLayout(R.id.button1).setProperty("onClick", getArguments().getString("methodString1"));
-                this.getResources().getLayout(R.id.button2).setProperty("onClick", getArguments().getString("methodString2"));
-                this.getResources().getLayout(R.id.button3).setProperty("onClick", getArguments().getString("methodString3"));
-            } catch (Exception e){
 
-            }*/
-
-                buttonView1.setOnClickListener(new View.OnClickListener() {
-                                                   @Override
-                                                   public void onClick(View view) {
-                                                       method(getArguments().getString("methodString1"));
-                                                   }
-                                               });
+            //Set methods to be called when buttons are clickerd
+            buttonView1.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View view) {
+                    method(getArguments().getString("methodString1"));
+                    }
+                 });
             buttonView2.setOnClickListener(new View.OnClickListener() {
-                @Override
                 public void onClick(View view) {
                     method(getArguments().getString("methodString2"));
                 }
             });
             buttonView3.setOnClickListener(new View.OnClickListener() {
-                @Override
                 public void onClick(View view) {
                     method(getArguments().getString("methodString3"));
                 }
             });
 
-                        buttonView1.setText(getArguments().getString("methodString1"));
-            buttonView2.setText(getArguments().getString("methodString2"));
-            buttonView3.setText(getArguments().getString("methodString3"));
+            //set text for the buttons
+            buttonView1.setText(getArguments().getString("buttonString1"));
+            buttonView2.setText(getArguments().getString("buttonString2"));
+            buttonView3.setText(getArguments().getString("buttonString3"));
 
 
         }
