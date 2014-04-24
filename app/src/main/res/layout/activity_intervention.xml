@@ -1,0 +1,46 @@
+<LinearLayout xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="1"
+        style="@style/AppTheme"
+        android:id="@+id/arisTriangleContainer">
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="1"
+        style="@style/AppTheme">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="How's the"
+                android:id="@+id/arisTextView"
+                android:layout_gravity="center|top"
+                android:fontFamily="sans-serif-thin"
+                android:textSize="32dp"
+                android:longClickable="false"
+                android:maxWidth="200dp"
+                android:textAlignment="center"
+                android:visibility="visible"
+                android:gravity="center" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="1"
+        android:id="@+id/answerContainer"
+        style="@style/AppTheme">
+
+    </FrameLayout>
+</LinearLayout>
