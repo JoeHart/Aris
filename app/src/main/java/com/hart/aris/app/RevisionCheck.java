@@ -23,8 +23,9 @@ public class RevisionCheck extends InterventionActivity implements AnswerFragmen
             }
             AnswerFragment firstAnswer = AnswerFragment.newInstance("Great!","positiveResponse","Alright","neutralResponse","I'm not revising.","notResponse");
 
-            setArisText("How's the revision going?");
-
+            //setArisText("How's the revision going?");
+            String name = getSharedPreferences("userdata",MODE_PRIVATE).getString("name","retrievalerror");
+            setArisText(name);
             getSupportFragmentManager().beginTransaction().add(R.id.answerContainer,firstAnswer).commit();
         }
     }
