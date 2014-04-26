@@ -17,6 +17,7 @@ public class InterventionActivity extends FragmentActivity implements ButtonAnsw
     private TextView arisText;
     protected TextToSpeech tts;
     protected boolean readyToTalk;
+    ArisTriangleFragment arisFace;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,20 +29,26 @@ public class InterventionActivity extends FragmentActivity implements ButtonAnsw
         //get user name etc
         initializeArisText();
 
-        ArisTriangleFragment arisTriangleFragment = new ArisTriangleFragment();
+        arisFace = new ArisTriangleFragment();
 
-        getSupportFragmentManager().beginTransaction().add(R.id.arisTriangleContainer, arisTriangleFragment).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.arisTriangleContainer, arisFace).commit();
     }
 
     public void setMoodHappy(){
+        arisFace.smile();
+        tts.setPitch(1.5f);
 
     }
 
     public void setMoodNeutral(){
+        arisFace.neutral();
+        tts.setPitch(1.0f);
 
     }
 
     public void setMoodSad(){
+        arisFace.worry();
+        tts.setPitch(0.8f);
 
     }
 

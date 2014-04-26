@@ -23,11 +23,7 @@
             android:name="com.hart.aris.app.RevisionCheck"
             android:label="@string/title_activity_revision_check" >
 
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name="com.hart.aris.app.InterventionActivity"
@@ -36,6 +32,16 @@
         <activity
             android:name=".NameCheckActivity"
             android:label="@string/title_activity_initial" >
+        </activity>
+        <activity
+            android:name=".WelcomeActivity"
+            android:label="Aris">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            </activity>
         </activity>
     </application>
 

@@ -17,14 +17,14 @@ public class RevisionCheck extends InterventionActivity implements AnswerFragmen
             }
             ButtonAnswerFragment firstAnswer = ButtonAnswerFragment.newInstance("Great!", "positiveResponse", "Alright", "neutralResponse", "I'm not revising.", "notResponse");
 
-            //setArisText("How's the revision going?");
-            setArisText("I'm sorry Dave, I'm afraid I can't do that.");
+            setArisText("How's the revision going?");
+            //setArisText("I'm sorry Dave, I'm afraid I can't do that.");
             getSupportFragmentManager().beginTransaction().add(R.id.answerContainer,firstAnswer).commit();
         }
     }
 
     public void positiveResponse(View view){
-
+        setMoodHappy();
         setArisText("Awesome! Good Work! Keep it up!");
         //TODO: Implement storage of positive response
         clearAnswer();
@@ -33,7 +33,9 @@ public class RevisionCheck extends InterventionActivity implements AnswerFragmen
 
 
     public void neutralResponse(View view){
+        setMoodSad();
         setArisText("Oh no. Why is that?");
+
         clearAnswer();
         //ReasonBadQuestion newAnswer = new ReasonBadQuestion();
         ButtonAnswerFragment newAnswer =

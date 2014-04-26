@@ -91,11 +91,28 @@ public class ButtonAnswerFragment extends AnswerFragment {
                     method(getArguments().getString("methodString3"));
                 }
             });
+            String bString1 = getArguments().getString("buttonString1");
+            String bString2 = getArguments().getString("buttonString2");
+            String bString3 = getArguments().getString("buttonString3");
+            if(bString1.isEmpty()){
+                buttonView1.setVisibility(View.INVISIBLE);
+                buttonView1.setAlpha(0.0f);
+            } else{
+                buttonView1.setText(bString1);
+            }
+            if(bString2.isEmpty()){
+                buttonView2.setVisibility(View.INVISIBLE);
+                buttonView2.setAlpha(0.0f);
+            } else{
+                buttonView2.setText(bString2);
+            }
+            if(bString3.isEmpty()){
+                buttonView3.setVisibility(View.INVISIBLE);
+                buttonView3.setAlpha(0.0f);
+            } else{
+                buttonView3.setText(bString3);
+            }
 
-            //set text for the buttons
-            buttonView1.setText(getArguments().getString("buttonString1"));
-            buttonView2.setText(getArguments().getString("buttonString2"));
-            buttonView3.setText(getArguments().getString("buttonString3"));
 
 
         }

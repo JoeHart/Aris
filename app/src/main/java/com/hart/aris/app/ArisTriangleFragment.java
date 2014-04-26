@@ -16,7 +16,7 @@ import android.widget.ImageView;
  *
  */
 public class ArisTriangleFragment extends Fragment {
-    public Animation arisGlow;
+    //public Animation arisGlow;
     public ArisTriangleFragment() {
         // Required empty public constructor
     }
@@ -38,9 +38,24 @@ public class ArisTriangleFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         //load Animations
-        arisGlow = AnimationUtils.loadAnimation(getView().getContext(), R.anim.aris_glow);
+       /* arisGlow = AnimationUtils.loadAnimation(getView().getContext(), R.anim.aris_glow);
         //Start the Aris glowing
         ImageView glow = (ImageView) getView().findViewById(R.id.glowImageView);
-        glow.startAnimation(arisGlow);
+        glow.startAnimation(arisGlow);*/
+    }
+
+    public void smile(){
+        ImageView face = (ImageView) getView().findViewById(R.id.arisFace);
+        face.setImageResource(R.drawable.arisfacesmile);
+    }
+
+    public void worry(){
+        ImageView face = (ImageView) getView().findViewById(R.id.arisFace);
+        face.setImageResource(R.drawable.arisfaceworry);
+    }
+
+    public void neutral(){
+        ImageView face = (ImageView) getView().findViewById(R.id.arisFace);
+        face.setImageResource(R.drawable.arisface);
     }
 }
