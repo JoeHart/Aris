@@ -2,6 +2,7 @@ package com.hart.aris.app;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 import android.support.v4.app.FragmentActivity;
 import android.view.Window;
@@ -11,20 +12,46 @@ import android.provider.ContactsContract;
 import android.content.SharedPreferences;
 import android.speech.tts.TextToSpeech;
 import java.util.Locale;
+import java.util.HashMap;
 import android.os.AsyncTask;
+import android.speech.tts.UtteranceProgressListener;
+import android.os.Handler;
+import android.os.Message;
 
-public class InterventionActivity extends FragmentActivity implements ButtonAnswerFragment.OnFragmentInteractionListener, TextToSpeech.OnInitListener {
+public class InterventionActivity extends FragmentActivity implements ButtonAnswerFragment.OnFragmentInteractionListener, TextToSpeech.OnInitListener{
     private TextView arisText;
     protected TextToSpeech tts;
+    HashMap<String, String> map;
     protected boolean readyToTalk;
     ArisTriangleFragment arisFace;
+    public User user;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //Remove title bar
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_intervention);
+        user = new User(this);
+        map = new HashMap<String, String>();
         tts = new TextToSpeech(this, this);
+
+        tts.setOnUtteranceProgressListener(new UtteranceProgressListener() {
+            @Override
+            public void onStart(String s) {
+            Log.e("Started", s);
+            }
+
+            @Override
+            public void onDone(String s) {
+                Log.e("ended", s);
+               showHandler.sendEmptyMessage(0);
+            }
+
+            @Override
+            public void onError(String s) {
+
+            }
+        });
         readyToTalk=false;
         //get user name etc
         initializeArisText();
@@ -33,25 +60,32 @@ public class InterventionActivity extends FragmentActivity implements ButtonAnsw
 
         getSupportFragmentManager().beginTransaction().add(R.id.arisTriangleContainer, arisFace).commit();
     }
+    final Handler   showHandler   = new Handler() {
+        @Override
+        public void handleMessage(Message msg)
+        {
 
-    public void setMoodHappy(){
+            showAnswer();
+        }
+    };
+
+    public void setArisMoodHappy(){
         arisFace.smile();
-        tts.setPitch(1.5f);
+        tts.setPitch(1.2f);
 
     }
 
-    public void setMoodNeutral(){
+    public void setArisMoodNeutral(){
         arisFace.neutral();
         tts.setPitch(1.0f);
 
     }
 
-    public void setMoodSad(){
+    public void setArisMoodWorried(){
         arisFace.worry();
-        tts.setPitch(0.8f);
+        tts.setPitch(0.9f);
 
     }
-
 
     public void onPause(){
         super.onPause();
@@ -69,7 +103,25 @@ public class InterventionActivity extends FragmentActivity implements ButtonAnsw
 
     public void setArisText(String s){
         arisText.setText(s);
+        hideAnswer();
         speak(s);
+    }
+    public void hideAnswer(){
+        try {
+        View container = findViewById(R.id.answerContainer);
+        container.setVisibility(View.INVISIBLE);
+        container.setAlpha(0.0f);
+    } catch (Exception e) {
+
+    }
+    }
+
+    public void showAnswer(){
+        View container = findViewById(R.id.answerContainer);
+        container.setVisibility(View.VISIBLE);
+        container.setAlpha(1.0f);
+
+
     }
 
     public void clearAnswer(){
@@ -125,11 +177,13 @@ public class InterventionActivity extends FragmentActivity implements ButtonAnsw
     }
 
     public void speak(String s){
-        tts.speak(s, TextToSpeech.QUEUE_FLUSH, null);
+        map.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "UniqueID");
+        tts.speak(s, TextToSpeech.QUEUE_FLUSH, map);
 
     }
 
     public void speak(){
-        tts.speak(getArisText(), TextToSpeech.QUEUE_FLUSH, null);
+
+    speak(getArisText());
     }
 }

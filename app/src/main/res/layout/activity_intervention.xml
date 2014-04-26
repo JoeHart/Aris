@@ -20,19 +20,22 @@
         style="@style/AppTheme">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="How's the"
                 android:id="@+id/arisTextView"
                 android:layout_gravity="center|top"
                 android:fontFamily="sans-serif-thin"
-                android:textSize="32dp"
+                android:textSize="22dp"
                 android:longClickable="false"
                 android:maxWidth="200dp"
                 android:textAlignment="center"
                 android:visibility="visible"
-                android:gravity="center" />
+                android:gravity="center"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp" />
+
     </FrameLayout>
 
     <FrameLayout

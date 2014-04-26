@@ -24,7 +24,7 @@ public class RevisionCheck extends InterventionActivity implements AnswerFragmen
     }
 
     public void positiveResponse(View view){
-        setMoodHappy();
+        setArisMoodHappy();
         setArisText("Awesome! Good Work! Keep it up!");
         //TODO: Implement storage of positive response
         clearAnswer();
@@ -33,7 +33,7 @@ public class RevisionCheck extends InterventionActivity implements AnswerFragmen
 
 
     public void neutralResponse(View view){
-        setMoodSad();
+        setArisMoodWorried();
         setArisText("Oh no. Why is that?");
 
         clearAnswer();

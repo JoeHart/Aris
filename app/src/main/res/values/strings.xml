@@ -8,5 +8,6 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_intervention">InterventionActivity</string>
     <string name="title_activity_initial">Aris</string>
+    <string name="title_activity_host">host</string>
 
 </resources>

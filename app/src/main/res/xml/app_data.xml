@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<CheckBoxPreference
+
+    android:key="setup_completed"
+    android:title="Setup Completed"
+    android:summary="Uncheck to reset you're data"
+    android:defaultValue="false" ></CheckBoxPreference>
+</PreferenceScreen>
