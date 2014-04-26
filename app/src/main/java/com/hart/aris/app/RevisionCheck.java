@@ -2,13 +2,7 @@ package com.hart.aris.app;
 
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
-import android.support.v4.app.FragmentActivity;
-
-import java.util.ArrayList;
 
 public class RevisionCheck extends InterventionActivity implements AnswerFragment.OnFragmentInteractionListener {
 
@@ -21,11 +15,10 @@ public class RevisionCheck extends InterventionActivity implements AnswerFragmen
             if (savedInstanceState != null) {
                 return;
             }
-            AnswerFragment firstAnswer = AnswerFragment.newInstance("Great!","positiveResponse","Alright","neutralResponse","I'm not revising.","notResponse");
+            ButtonAnswerFragment firstAnswer = ButtonAnswerFragment.newInstance("Great!", "positiveResponse", "Alright", "neutralResponse", "I'm not revising.", "notResponse");
 
             //setArisText("How's the revision going?");
-            String name = getSharedPreferences("userdata",MODE_PRIVATE).getString("name","retrievalerror");
-            setArisText(name);
+            setArisText("I'm sorry Dave, I'm afraid I can't do that.");
             getSupportFragmentManager().beginTransaction().add(R.id.answerContainer,firstAnswer).commit();
         }
     }
@@ -43,11 +36,11 @@ public class RevisionCheck extends InterventionActivity implements AnswerFragmen
         setArisText("Oh no. Why is that?");
         clearAnswer();
         //ReasonBadQuestion newAnswer = new ReasonBadQuestion();
-        AnswerFragment newAnswer =
-                AnswerFragment.newInstance(
+        ButtonAnswerFragment newAnswer =
+                ButtonAnswerFragment.newInstance(
                         "I keep getting distracted", "distractedResponse",
                         "I'm bored", "boredResponse",
-                        "I feel terrible","terribleResponse"
+                        "I feel terrible", "terribleResponse"
                 );
         getSupportFragmentManager().beginTransaction().add(R.id.answerContainer, newAnswer).commit();
 

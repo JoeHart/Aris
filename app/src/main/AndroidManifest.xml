@@ -10,11 +10,9 @@
         android:minSdkVersion="7"
         android:targetSdkVersion="17" />
     <!-- Required to access the Contacts Provider and user profile -->
-    <uses-permission android:name="android.permission.READ_PROFILE"/>
-    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
-    <uses-permission android:name="android.permission.READ_CONTACTS"/>
-
-
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
 
     <application
         android:allowBackup="true"
@@ -24,6 +22,7 @@
         <activity
             android:name="com.hart.aris.app.RevisionCheck"
             android:label="@string/title_activity_revision_check" >
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -33,6 +32,10 @@
         <activity
             android:name="com.hart.aris.app.InterventionActivity"
             android:label="@string/title_activity_intervention" >
+        </activity>
+        <activity
+            android:name=".NameCheckActivity"
+            android:label="@string/title_activity_initial" >
         </activity>
     </application>
 

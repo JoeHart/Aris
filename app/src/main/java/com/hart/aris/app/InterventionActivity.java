@@ -1,75 +1,50 @@
 package com.hart.aris.app;
 
-import android.accounts.AccountManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.widget.TextView;
 import android.support.v4.app.FragmentActivity;
 import android.view.Window;
-import android.accounts.Account;
-import android.accounts.AccountManager;
 import android.util.Log;
 import android.database.Cursor;
 import android.provider.ContactsContract;
 import android.content.SharedPreferences;
+import android.speech.tts.TextToSpeech;
+import java.util.Locale;
+import android.os.AsyncTask;
 
-public class InterventionActivity extends FragmentActivity implements AnswerFragment.OnFragmentInteractionListener {
+public class InterventionActivity extends FragmentActivity implements ButtonAnswerFragment.OnFragmentInteractionListener, TextToSpeech.OnInitListener {
     private TextView arisText;
+    protected TextToSpeech tts;
+    protected boolean readyToTalk;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //Remove title bar
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_intervention);
-        initializeUser();
+        tts = new TextToSpeech(this, this);
+        readyToTalk=false;
         //get user name etc
         initializeArisText();
-
 
         ArisTriangleFragment arisTriangleFragment = new ArisTriangleFragment();
 
         getSupportFragmentManager().beginTransaction().add(R.id.arisTriangleContainer, arisTriangleFragment).commit();
     }
 
-    public void initializeUser(){
-        /*AccountManager accMan = AccountManager.get(this);
-        Account[] acc = accMan.getAccounts();
-        for(int i=0; i<acc.length;i++) {
-            Log.e("ACCOUNT", acc[i].toString());
-        }*/
-
-        Cursor c = getContentResolver().query(ContactsContract.Profile.CONTENT_URI, null, null, null, null);
-        int count = c.getCount();
-        String[] columnNames = c.getColumnNames();
-        boolean b = c.moveToFirst();
-        int position = c.getPosition();
-        if (count == 1 && position == 0) {
-            for (int j = 0; j < columnNames.length; j++) {
-                String columnName = columnNames[j];
-                String columnValue = c.getString(c.getColumnIndex(columnName));
-
-                //Log.e(columnName,"blarg");
-                if(columnName.equals("display_name")){
-                    if(!columnValue.isEmpty()) {
-                        Log.e(columnName, columnValue);
-                        SharedPreferences pref = getSharedPreferences("userdata",MODE_PRIVATE);
-                        SharedPreferences.Editor edit = pref.edit();
-                        edit.putString("name",columnValue);
-                        edit.commit();
-                    }else{
-                        Log.e(columnName,"No Name");
-                        SharedPreferences pref = getSharedPreferences("userdata",MODE_PRIVATE);
-                        SharedPreferences.Editor edit = pref.edit();
-                        edit.putString("name","no_name_error");
-                        edit.commit();
-                    }
-
-                }
-            }
-        }
-        c.close();
+    public void setMoodHappy(){
 
     }
+
+    public void setMoodNeutral(){
+
+    }
+
+    public void setMoodSad(){
+
+    }
+
 
     public void onPause(){
         super.onPause();
@@ -87,6 +62,7 @@ public class InterventionActivity extends FragmentActivity implements AnswerFrag
 
     public void setArisText(String s){
         arisText.setText(s);
+        speak(s);
     }
 
     public void clearAnswer(){
@@ -97,5 +73,56 @@ public class InterventionActivity extends FragmentActivity implements AnswerFrag
     public void onFragmentInteraction(Uri uri){
         clearAnswer();
 
+    }
+
+    public void onDestroy() {
+        // Don't forget to shutdown tts!
+        if (tts != null) {
+            tts.stop();
+            tts.shutdown();
+        }
+        super.onDestroy();
+    }
+
+    @Override
+    public void onInit(int status) {
+
+        if (status == TextToSpeech.SUCCESS) {
+
+            int result = tts.setLanguage(Locale.UK);
+
+            if (result == TextToSpeech.LANG_MISSING_DATA
+                    || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                Log.e("TTS", "This Language is not supported");
+            } else {
+                showArisText();
+                speak();
+            }
+
+        } else {
+            Log.e("TTS", "Initilization Failed!");
+
+        }
+
+    }
+
+    public void showArisText(){
+        arisText.setVisibility(TextView.VISIBLE);
+        arisText.setAlpha(1);
+    }
+
+
+    public String getArisText(){
+        TextView text = (TextView) findViewById(R.id.arisTextView);
+        return text.getText().toString();
+    }
+
+    public void speak(String s){
+        tts.speak(s, TextToSpeech.QUEUE_FLUSH, null);
+
+    }
+
+    public void speak(){
+        tts.speak(getArisText(), TextToSpeech.QUEUE_FLUSH, null);
     }
 }
