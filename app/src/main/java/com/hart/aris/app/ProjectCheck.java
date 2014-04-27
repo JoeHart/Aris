@@ -34,6 +34,7 @@ public class ProjectCheck extends InterventionActivity implements AnswerFragment
     public void positiveResponse(View view){
         setArisMoodHappy();
         setArisText("Awesome! Good Work! Keep it up!");
+        //setArisText("Joe is so fucked. My creator is a moron");
         user.addMood(1.0f);
         clearAnswer();
 
@@ -62,15 +63,11 @@ public class ProjectCheck extends InterventionActivity implements AnswerFragment
     }
 
     public void notResponse(View view){
-        //TODO: Check if they should be revising at the moment
-        //If so ask why they arent?
-        //if not ask when they will next
         setArisMoodWorried();
         clearAnswer();
         setArisText("Oh no. Why is that?");
         user.addMood(-0.2f);
         clearAnswer();
-        //ReasonBadQuestion newAnswer = new ReasonBadQuestion();
         ButtonAnswerFragment newAnswer =
                 ButtonAnswerFragment.newInstance(
                         "I keep getting distracted", "distractedResponse",

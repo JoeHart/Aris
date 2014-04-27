@@ -101,4 +101,14 @@ public class User {
             }
         }
     }
+
+    public void setWordCount(int words){
+
+        edit.putInt("wordCount", words);
+        edit.commit();
+    }
+
+    public int getWordCount(){
+        return userdata.getInt("wordCount", 0);
+    }
 }

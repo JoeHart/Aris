@@ -143,7 +143,9 @@ public class InterventionActivity extends FragmentActivity implements ButtonAnsw
         // add 5 minutes to the calendar object
         cal.add(Calendar.MINUTE, 1);
         Intent intent = new Intent(this, CheckReceiver.class);
-        intent.putExtra("alarm_message", "O'Doyle Rules!");
+        intent.putExtra("activity_start", activity.toString());
+        intent.putExtra("study_type", StudyType);
+        intent.putExtra("name",user.getName());
         // In reality, you would want to have a static variable for the request code instead of 192837
         PendingIntent sender = PendingIntent.getBroadcast(this, 192837, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
@@ -195,6 +197,7 @@ public class InterventionActivity extends FragmentActivity implements ButtonAnsw
             setArisText(hours + " hours! Good Job!");
             ButtonAnswerFragment thanks = ButtonAnswerFragment.newInstance("Thanks Aris!","goodbye","","","","");
                     getSupportFragmentManager().beginTransaction().add(R.id.answerContainer,thanks).commit();
+            addPromise("dissertation",PastPaperCheckActivity.class,new Date());
             user.addMood(1.0f);
 
         } else{
@@ -204,6 +207,7 @@ public class InterventionActivity extends FragmentActivity implements ButtonAnsw
                 setArisText(hours + " hours, thats ok. Try and aim for " + tomorrow + " hours tomorrow.");
                 user.addMood(0.4f);
                 ButtonAnswerFragment thanks = ButtonAnswerFragment.newInstance("I'll try!","goodbye","","","","");
+                addPromise("dissertation",PastPaperCheckActivity.class,new Date());
                 getSupportFragmentManager().beginTransaction().add(R.id.answerContainer,thanks).commit();
             } else{
                 setArisMoodWorried();
@@ -211,6 +215,7 @@ public class InterventionActivity extends FragmentActivity implements ButtonAnsw
                 setArisText("That's not a lot, will you try and do more tomorrow?");
 
                 ButtonAnswerFragment thanks = ButtonAnswerFragment.newInstance("I'll try!","goodbye","","","","");
+                addPromise("dissertation",PastPaperCheckActivity.class,new Date());
                 getSupportFragmentManager().beginTransaction().add(R.id.answerContainer,thanks).commit();
             }
         }

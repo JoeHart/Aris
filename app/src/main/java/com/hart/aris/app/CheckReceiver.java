@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.util.Log;
 
 public class CheckReceiver extends BroadcastReceiver {
     public CheckReceiver() {
@@ -17,14 +18,19 @@ public class CheckReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         try{
             Bundle bundle = intent.getExtras();
-            createNotification(PastPaperCheckActivity.class,context);
+            String studyType = bundle.getString("study_type");
+            String classType = bundle.getString("activity_start");
+            String name = bundle.getString("name");
+            Class c =  Class.forName(classType);
+            Log.e("Class: ", classType);
+            createNotification(c,context,name);
         } catch (Exception e) {
            // Toast.makeText(context, "There was an error somewhere, but we still received an alarm", Toast.LENGTH_SHORT).show();
             e.printStackTrace();
 
         }}
 
-    public void createNotification(Class activity,Context context) {
+    public void createNotification(Class activity,Context context, String name) {
         // Prepare intent which is triggered if the
         // notification is selected
         Intent intent = new Intent(context, activity);
@@ -33,7 +39,7 @@ public class CheckReceiver extends BroadcastReceiver {
         // Build notification
         // Actions are just fake
         Notification noti = new Notification.Builder(context)
-                .setContentTitle("Hi . Can we chat?")
+                .setContentTitle("Hi"+ name+". Can we chat?")
                 .setContentText("It'll only take a few moments!").setSmallIcon(R.drawable.ic_launcher)
                 .setContentIntent(pIntent).build();
 
