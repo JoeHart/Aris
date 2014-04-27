@@ -57,44 +57,14 @@ public class WelcomeActivity extends InterventionActivity implements AnswerFragm
         getSupportFragmentManager().beginTransaction().add(R.id.answerContainer, projectTypeAnswerFragment).commit();
     }
 
-    public static int safeLongToInt(long l) {
-        if (l < Integer.MIN_VALUE || l > Integer.MAX_VALUE) {
-            throw new IllegalArgumentException
-                    (l + " cannot be cast to int without changing its value.");
-        }
-        return (int) l;
-    }
+
 
     public void dateResponse(View v, Date d){
         setArisMoodHappy();
         clearAnswer();
-        SharedPreferences pref = getSharedPreferences("userdata",MODE_PRIVATE);
-        SharedPreferences.Editor editor = pref.edit();
-        long datetime = d.getTime();
-        editor.putLong("deadline", datetime);
-        Date date = new Date();
-        Log.e(date.toString(),d.toString());
-        long days=0;
-        try {
-            Date date1 = d;
-            Date date2 = date;
-            long diff = date1.getTime() - date2.getTime();
-            days = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
-        } catch (Exception e) {
-        }
-        int daysLeft = safeLongToInt(days);
+        user.setDeadline(d);
 
-        if (daysLeft<7){
-            setArisText("Thats not very long only " +days + " days to go! How ready do you feel?");
-        } else{
-            if(daysLeft<30){
-                int weeks =daysLeft/7;
-                setArisText("Thats ok we've got " + weeks + " weeks left. How ready do you feel?");
-            } else{
-                int months = daysLeft/30;
-                setArisText("That's ages! We've got " + months + " months left. How ready do you feel?");
-            }
-        }
+        setArisText(lang.getTimeReaction(d) + " How do you feel?");
 
         ButtonAnswerFragment readyAnswer = ButtonAnswerFragment.newInstance("I'm confident","confidentResponse", "I should be fine","fineResponse", "I'm screwed","screwedResponse");
         getSupportFragmentManager().beginTransaction().add(R.id.answerContainer, readyAnswer).commit();
@@ -118,7 +88,9 @@ public class WelcomeActivity extends InterventionActivity implements AnswerFragm
 
         setArisText("Don't worry " + user.getName()+ ", with me you'll be more than fine. When are you studying next?");
         setWelcomeComplete();
-        //TODO: complete this
+        DateAnswerFragment date = DateAnswerFragment.newInstance("addStudyPromise");
+        getSupportFragmentManager().beginTransaction().add(R.id.answerContainer,date).commit();
+        nextStudyCheck();
     }
 
     public void screwedResponse(View v){
@@ -127,13 +99,13 @@ public class WelcomeActivity extends InterventionActivity implements AnswerFragm
         setArisText("Oh no " + user.getName() + ", that's not good. I'm sure we can sort it out. When are you studying next?");
         user.addMood(-1.0f);
         setWelcomeComplete();
-        //TODO: complete this
+        nextStudyCheck();
     }
 
     public void dissertationResponse(View v){
         setArisMoodNeutral();
         clearAnswer();
-        setProjectType("dissertaion");
+        setProjectType("dissertation");
         setArisText("When is your dissertation due?");
         DateAnswerFragment dateFrag = DateAnswerFragment.newInstance("dateResponse");
         getSupportFragmentManager().beginTransaction().add(R.id.answerContainer, dateFrag).commit();
@@ -143,7 +115,7 @@ public class WelcomeActivity extends InterventionActivity implements AnswerFragm
     public void examsResponse(View v){
         setArisMoodNeutral();
         clearAnswer();
-        setProjectType("exams");
+        setProjectType("exam");
         setArisText("When is your first exam?");
         DateAnswerFragment dateFrag = DateAnswerFragment.newInstance("dateResponse");
         getSupportFragmentManager().beginTransaction().add(R.id.answerContainer, dateFrag).commit();

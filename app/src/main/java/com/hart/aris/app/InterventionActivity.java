@@ -7,16 +7,13 @@ import android.widget.TextView;
 import android.support.v4.app.FragmentActivity;
 import android.view.Window;
 import android.util.Log;
-import android.database.Cursor;
-import android.provider.ContactsContract;
-import android.content.SharedPreferences;
 import android.speech.tts.TextToSpeech;
 import java.util.Locale;
 import java.util.HashMap;
-import android.os.AsyncTask;
 import android.speech.tts.UtteranceProgressListener;
 import android.os.Handler;
 import android.os.Message;
+import java.util.Date;
 
 public class InterventionActivity extends FragmentActivity implements ButtonAnswerFragment.OnFragmentInteractionListener, TextToSpeech.OnInitListener{
     private TextView arisText;
@@ -25,6 +22,7 @@ public class InterventionActivity extends FragmentActivity implements ButtonAnsw
     protected boolean readyToTalk;
     ArisTriangleFragment arisFace;
     public User user;
+    public LanguageHelper lang;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,7 +32,7 @@ public class InterventionActivity extends FragmentActivity implements ButtonAnsw
         user = new User(this);
         map = new HashMap<String, String>();
         tts = new TextToSpeech(this, this);
-
+        lang = new LanguageHelper(user);
         tts.setOnUtteranceProgressListener(new UtteranceProgressListener() {
             @Override
             public void onStart(String s) {
@@ -72,24 +70,53 @@ public class InterventionActivity extends FragmentActivity implements ButtonAnsw
     public void setArisMoodHappy(){
         arisFace.smile();
         tts.setPitch(1.2f);
-
     }
 
     public void setArisMoodNeutral(){
         arisFace.neutral();
         tts.setPitch(1.0f);
-
     }
 
     public void setArisMoodWorried(){
         arisFace.worry();
         tts.setPitch(0.9f);
-
     }
 
     public void onPause(){
         super.onPause();
         finish();
+    }
+
+    public boolean dateCheck(View v, Date d){
+        if(lang.getDaysUntilInt(user.getDeadline())>lang.getDaysUntilInt(d)) {
+            if (lang.getDaysUntilInt(d) < 14) {
+                addStudyPromise(v,d);
+                return true;
+            } else {
+                clearAnswer();
+                setArisText("That's not very soon! You've only got " + lang.getTimeUntilString(user.getDeadline()));
+                nextStudyCheck();
+                return false;
+            }
+        }else{
+            setArisText("Don't be silly " + user.getName() + ". That's after your " + user.getStringDeadline() + ". When will you study next?");
+            nextStudyCheck();
+            return false;
+        }
+    }
+
+    public void nextStudyCheck(){
+        clearAnswer();
+        DateAnswerFragment date = DateAnswerFragment.newInstance("dateCheck");
+        getSupportFragmentManager().beginTransaction().add(R.id.answerContainer,date).commit();
+    }
+
+    public void addStudyPromise(View v, Date d){
+
+
+        clearAnswer();
+        setArisMoodHappy();
+        setArisText("I'll ");
     }
 
     public void initializeArisText(){

@@ -74,6 +74,13 @@ public class DateAnswerFragment extends AnswerFragment {
                 }
             });
 
+            DatePicker datePicker = (DatePicker) getView().findViewById(R.id.datePicker);
+            Calendar cal = Calendar.getInstance();
+            long time = cal.getTimeInMillis();
+            Date today = new Date();
+            long todayLong = today.getTime();
+            datePicker.setMinDate(time-1000);
+
 
 
         }

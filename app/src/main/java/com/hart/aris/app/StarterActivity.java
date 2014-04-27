@@ -7,7 +7,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.content.Intent;
 
-
+/**
+ * Class for starting the correct activity.
+ */
 public class StarterActivity extends ActionBarActivity {
 
     @Override
