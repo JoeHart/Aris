@@ -10,6 +10,11 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
 
+        <TimePicker
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/timePicker" />
+
         <DatePicker
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -25,5 +30,6 @@
             android:id="@+id/submitButton"
             android:onClick="e"
             android:layout_gravity="center_vertical" />
+
     </LinearLayout>
 </FrameLayout>

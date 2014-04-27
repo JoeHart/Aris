@@ -20,7 +20,7 @@ public class StarterActivity extends ActionBarActivity {
        //appData.getBoolean("setup_completed",false)
         boolean completed = appData.getBoolean("setup_completed",false);
         if(completed){
-            intent = new Intent(this, RevisionCheck.class);
+            intent = new Intent(this, ProjectCheck.class);
         } else {
 
             intent = new Intent(this,WelcomeActivity.class);

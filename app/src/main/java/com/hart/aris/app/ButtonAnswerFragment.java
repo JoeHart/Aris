@@ -127,6 +127,7 @@ public class ButtonAnswerFragment extends AnswerFragment {
             method.invoke(current,getView());
         } catch (Exception e) {
             Log.e("METHOD ERROR",methodName);
+            e.printStackTrace();
         }
     }
 

@@ -1,5 +1,6 @@
 package com.hart.aris.app;
 
+import android.app.Notification;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -8,12 +9,18 @@ import android.support.v4.app.FragmentActivity;
 import android.view.Window;
 import android.util.Log;
 import android.speech.tts.TextToSpeech;
+
+import java.util.Calendar;
 import java.util.Locale;
 import java.util.HashMap;
 import android.speech.tts.UtteranceProgressListener;
 import android.os.Handler;
 import android.os.Message;
 import java.util.Date;
+import android.content.Intent;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.app.NotificationManager;
 
 public class InterventionActivity extends FragmentActivity implements ButtonAnswerFragment.OnFragmentInteractionListener, TextToSpeech.OnInitListener{
     private TextView arisText;
@@ -112,11 +119,131 @@ public class InterventionActivity extends FragmentActivity implements ButtonAnsw
     }
 
     public void addStudyPromise(View v, Date d){
-
-
         clearAnswer();
+
+        /*Intent myIntent = new Intent(this , NotificationService.class);
+        AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
+        pendingIntent = PendingIntent.getService(ThisApp.this, 0, myIntent, 0);
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, 12);
+        calendar.set(Calendar.MINUTE, 00);
+        calendar.set(Calendar.SECOND, 00);
+        long time = d.getTime();
+
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, time, 24*60*60*1000 , pendingIntent);  //set repeating every 24 hours*/
+
         setArisMoodHappy();
-        setArisText("I'll ");
+        setArisText("I'll catch up with you " + lang.getTimePhrase(d));
+    }
+
+    public void addPromise(String StudyType,Class activity,Date d){
+        // get a Calendar object with current time
+        Calendar cal = Calendar.getInstance();
+        // add 5 minutes to the calendar object
+        cal.add(Calendar.MINUTE, 1);
+        Intent intent = new Intent(this, CheckReceiver.class);
+        intent.putExtra("alarm_message", "O'Doyle Rules!");
+        // In reality, you would want to have a static variable for the request code instead of 192837
+        PendingIntent sender = PendingIntent.getBroadcast(this, 192837, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        // Get the AlarmManager service
+        AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
+        am.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), sender);
+
+    }
+
+    public void howManyHours(View view){
+        setArisText("How many hours did you " + user.getProjectVerb() + " today?");
+        HoursAnswerFragment hours = HoursAnswerFragment.newInstance("hoursReaction");
+
+        getSupportFragmentManager().beginTransaction().add(R.id.answerContainer,hours).commit();
+    }
+
+    public void goodbye(View v){
+        clearAnswer();
+        float userMood = user.getUserMood();
+        if(userMood>0.5){
+            setArisMoodHappy();
+            setArisText("You're doing really well " + user.getName() + ". Keep up the good work! Goodbye.");
+        } else{
+            if(userMood>0){
+                setArisMoodNeutral();
+                setArisText("With a bit more hard work, you'll be fine " + user.getName() +". Goodbye");
+            } else{
+                if(lang.getDaysUntilInt(user.getDeadline())<7){
+                    setArisMoodHappy();
+                    setArisText("You've got less than a week left. Give it one last push and you'll be fine.");
+                }
+                setArisText("I know you can do better. If you focus I'm sure you'll succeed");
+            }
+        }
+
+
+        ButtonAnswerFragment thanks = ButtonAnswerFragment.newInstance("Bye Aris!","closeAris","","","","");
+        getSupportFragmentManager().beginTransaction().add(R.id.answerContainer,thanks).commit();
+    }
+
+    public void closeAris(View v){
+        finish();
+    }
+
+    public void hoursReaction(View v, int hours){
+        clearAnswer();
+        if(hours>5){
+            setArisMoodHappy();
+            setArisText(hours + " hours! Good Job!");
+            ButtonAnswerFragment thanks = ButtonAnswerFragment.newInstance("Thanks Aris!","goodbye","","","","");
+                    getSupportFragmentManager().beginTransaction().add(R.id.answerContainer,thanks).commit();
+            user.addMood(1.0f);
+
+        } else{
+            if(hours>2){
+                setArisMoodHappy();
+                int tomorrow = hours+1;
+                setArisText(hours + " hours, thats ok. Try and aim for " + tomorrow + " hours tomorrow.");
+                user.addMood(0.4f);
+                ButtonAnswerFragment thanks = ButtonAnswerFragment.newInstance("I'll try!","goodbye","","","","");
+                getSupportFragmentManager().beginTransaction().add(R.id.answerContainer,thanks).commit();
+            } else{
+                setArisMoodWorried();
+                user.addMood(-1.0f);
+                setArisText("That's not a lot, will you try and do more tomorrow?");
+
+                ButtonAnswerFragment thanks = ButtonAnswerFragment.newInstance("I'll try!","goodbye","","","","");
+                getSupportFragmentManager().beginTransaction().add(R.id.answerContainer,thanks).commit();
+            }
+        }
+
+
+        storeRevisionHours(hours);
+    }
+
+    public void storeRevisionHours(int hours){
+        Date today = new Date();
+        long todayLong = today.getTime();
+    }
+
+
+    public void createNotification(View view,Class activity) {
+        // Prepare intent which is triggered if the
+        // notification is selected
+        Intent intent = new Intent(this, activity);
+        PendingIntent pIntent = PendingIntent.getActivity(this, 0, intent,  PendingIntent.FLAG_UPDATE_CURRENT);
+
+        // Build notification
+        // Actions are just fake
+        Notification noti = new Notification.Builder(this)
+                .setContentTitle("Hi " + user.getName() + ". Can we chat?")
+                .setContentText("It'll only take a few moments!").setSmallIcon(R.drawable.ic_launcher)
+                .setContentIntent(pIntent).build();
+
+
+        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        // hide the notification after its selected
+        noti.flags = Notification.DEFAULT_LIGHTS | Notification.FLAG_AUTO_CANCEL;
+
+        notificationManager.notify(0, noti);
     }
 
     public void initializeArisText(){

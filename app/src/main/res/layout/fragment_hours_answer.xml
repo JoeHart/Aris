@@ -23,7 +23,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:fontFamily="sans-serif-thin"
-                android:textSize="90dp"
+                android:textSize="48dp"
                 android:text="12"
                 android:id="@+id/hoursTextView"
                 android:layout_gravity="center|bottom"
@@ -53,7 +53,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Submit"
-            android:id="@+id/button"
+            android:id="@+id/submitButton"
             android:layout_gravity="center_horizontal" />
 
         <Space

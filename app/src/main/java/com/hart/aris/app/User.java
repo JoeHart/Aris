@@ -26,6 +26,7 @@ public class User {
         float currentMood = getUserMood();
         float newMood = (f+currentMood)/2;
         setUserMood(newMood);
+        Log.e("Mood:", Float.toString(newMood));
 
     }
 
@@ -87,4 +88,17 @@ public class User {
            }
        }
    }
+
+    public String getProjectVerb(){
+        String projectType = getProjectType();
+        if( projectType.equals("exam")){
+            return "revise";
+        } else{
+            if( projectType.equals("dissertation")){
+                return "work on your dissertation";
+            } else{
+                return "work on your coursework";
+            }
+        }
+    }
 }
