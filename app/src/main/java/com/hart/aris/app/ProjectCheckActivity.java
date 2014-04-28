@@ -8,7 +8,7 @@ import android.view.View;
 
 import java.util.Calendar;
 
-public class ProjectCheck extends InterventionActivity implements AnswerFragment.OnFragmentInteractionListener {
+public class ProjectCheckActivity extends InterventionActivity implements AnswerFragment.OnFragmentInteractionListener {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,7 +63,7 @@ public class ProjectCheck extends InterventionActivity implements AnswerFragment
         Calendar cal = Calendar.getInstance();
 
         Log.e("Hour of day", Integer.toString(cal.get(Calendar.HOUR_OF_DAY)));
-        addPromise(lang.getActivityNoun(), ProjectCheck.class, cal.getTime());
+        addPromise(lang.getActivityNoun(), ProjectCheckActivity.class, cal.getTime());
 
         ButtonAnswerFragment thanks = ButtonAnswerFragment.newInstance("See you then", "goodbye", "", "", "", "");
         getSupportFragmentManager().beginTransaction().add(R.id.answerContainer, thanks).commit();

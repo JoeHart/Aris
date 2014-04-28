@@ -1,8 +1,6 @@
 package com.hart.aris.app;
 
 import android.app.AlarmManager;
-import android.app.Notification;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -38,7 +36,7 @@ public class InterventionActivity extends FragmentActivity implements ButtonAnsw
     protected TextToSpeech tts;
     protected boolean readyToTalk;
     HashMap<String, String> map;
-    ArisTriangleFragment arisFace;
+    ArisFaceFragment arisFace;
     private TextView arisText;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +70,7 @@ public class InterventionActivity extends FragmentActivity implements ButtonAnsw
         //get user name etc
         initializeArisText();
 
-        arisFace = new ArisTriangleFragment();
+        arisFace = new ArisFaceFragment();
 
         getSupportFragmentManager().beginTransaction().add(R.id.arisTriangleContainer, arisFace).commit();
     }
@@ -214,7 +212,7 @@ public class InterventionActivity extends FragmentActivity implements ButtonAnsw
         } else {
             //add interaction tomorrow at random time between 10am and 3pm
 
-            addPromise(lang.getActivityNoun(), ProjectCheck.class, cal.getTime());
+            addPromise(lang.getActivityNoun(), ProjectCheckActivity.class, cal.getTime());
             Log.e("Added promise", cal.getTime().toString());
         }
 

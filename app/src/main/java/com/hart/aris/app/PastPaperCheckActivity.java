@@ -88,14 +88,14 @@ public class PastPaperCheckActivity extends InterventionActivity implements Answ
         clearAnswer();
         setArisMoodHappy();
         setArisText("Well that's half the battle, when are you revising what you're weak on?");
-        nextStudyCheck("revising", ProjectCheck.class);
+        nextStudyCheck("revising", ProjectCheckActivity.class);
     }
 
     public void noResponse(View v) {
         clearAnswer();
         setArisMoodNeutral();
         setArisText("Try going back over the paper and see which parts you struggles on. When do you think you'll do that?");
-        nextStudyCheck("revising", ProjectCheck.class);
+        nextStudyCheck("revising", ProjectCheckActivity.class);
     }
 
     public void onFragmentInteraction(Uri uri) {

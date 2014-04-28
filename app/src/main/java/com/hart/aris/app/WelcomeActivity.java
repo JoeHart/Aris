@@ -103,7 +103,7 @@ public class WelcomeActivity extends InterventionActivity implements AnswerFragm
 
         setArisText("Don't worry " + user.getName() + ", with me you'll be more than fine. When are you studying next?");
         setWelcomeComplete();
-        nextStudyCheck(lang.getActivityNoun(), ProjectCheck.class);
+        nextStudyCheck(lang.getActivityNoun(), ProjectCheckActivity.class);
     }
 
     public void screwedResponse(View v) {
@@ -112,7 +112,7 @@ public class WelcomeActivity extends InterventionActivity implements AnswerFragm
         setArisText("Oh no " + user.getName() + ", that's not good. I'm sure we can sort it out. When are you studying next?");
         user.addMood(-1.0f);
         setWelcomeComplete();
-        nextStudyCheck(lang.getActivityNoun(), ProjectCheck.class);
+        nextStudyCheck(lang.getActivityNoun(), ProjectCheckActivity.class);
     }
 
     public void dissertationResponse(View v) {

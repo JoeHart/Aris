@@ -11,9 +11,9 @@ import android.widget.ImageView;
 /**
  *
  */
-public class ArisTriangleFragment extends Fragment {
+public class ArisFaceFragment extends Fragment {
     //public Animation arisGlow;
-    public ArisTriangleFragment() {
+    public ArisFaceFragment() {
         // Required empty public constructor
     }
 
