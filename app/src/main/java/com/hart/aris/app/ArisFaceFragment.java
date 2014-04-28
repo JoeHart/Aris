@@ -17,10 +17,7 @@ public class ArisFaceFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
 
-    }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -28,9 +25,6 @@ public class ArisFaceFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_aris_triangle, container, false);
     }
 
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-    }
 
     public void smile() {
         ImageView face = (ImageView) getView().findViewById(R.id.arisFace);

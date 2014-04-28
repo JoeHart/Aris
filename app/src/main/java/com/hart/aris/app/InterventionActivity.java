@@ -283,7 +283,7 @@ public class InterventionActivity extends FragmentActivity implements ButtonAnsw
             container.setVisibility(View.INVISIBLE);
             container.setAlpha(0.0f);
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
     }
 

@@ -93,9 +93,5 @@ public class HoursAnswerFragment extends AnswerFragment {
         }
     }
 
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
 
-    }
 }

@@ -41,11 +41,10 @@ public class LanguageHelper {
         Date date = new Date();
         long days = 0;
         try {
-            Date date1 = deadline;
-            Date date2 = date;
-            long diff = date1.getTime() - date2.getTime();
+            long diff = deadline.getTime() - date.getTime();
             days = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
         } catch (Exception e) {
+            e.printStackTrace();
         }
         return safeLongToInt(days) + 1;
     }
@@ -126,11 +125,7 @@ public class LanguageHelper {
         int day2 = cal2.get(Calendar.DAY_OF_MONTH);
         Log.e("DAY1:", Integer.toString(day1));
         Log.e("DAY2:", Integer.toString(day2));
-        if (day1 == day2) {
-            return true;
-        } else {
-            return false;
-        }
+        return day1 == day2;
     }
 
     public boolean isToday(Date d) {
