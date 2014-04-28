@@ -43,6 +43,15 @@ public class DateAnswerFragment extends AnswerFragment {
         fragment.setArguments(args);
         return fragment;
     }
+    public static DateAnswerFragment newInstance(String method,String studyType, Class activity) {
+        DateAnswerFragment fragment = new DateAnswerFragment();
+        Bundle args = new Bundle();
+        args.putString("methodString",method);
+        args.putString("studyType",studyType);
+        args.putString("classType",activity.toString());
+        fragment.setArguments(args);
+        return fragment;
+    }
     public DateAnswerFragment() {
         // Required empty public constructor
     }
@@ -88,48 +97,129 @@ public class DateAnswerFragment extends AnswerFragment {
 
     public void method(String methodName){
         Activity current = getActivity();
-        try {
+        if(getArguments().getString("studyType","").isEmpty()) {
 
-            Method method = getActivity().getClass().getMethod(methodName,View.class,Date.class);
-            DatePicker datePicker = (DatePicker) getView().findViewById(R.id.datePicker);
-            int day = datePicker.getDayOfMonth();
-            int month = datePicker.getMonth();
-            int year =  datePicker.getYear();
-            switch (month) {
-                case 0:  month =  Calendar.JANUARY;
-                    break;
-                case 1:  month=  Calendar.FEBRUARY;
-                    break;
-                case 2:  month =  Calendar.MARCH;
-                    break;
-                case 3:  month = Calendar.APRIL;
-                    break;
-                case 4:  month=  Calendar.MAY;
-                    break;
-                case 5:  month = Calendar.JUNE;
-                    break;
-                case 6:  month = Calendar.JULY;
-                    break;
-                case 7:  month =  Calendar.AUGUST;
-                    break;
-                case 8:  month =  Calendar.SEPTEMBER;
-                    break;
-                case 9: month =  Calendar.OCTOBER;
-                    break;
-                case 10: month = Calendar.NOVEMBER;
-                    break;
-                case 11: month =  Calendar.DECEMBER;
-                    break;
-                default: month =  Calendar.JANUARY;
-                    break;
+            try {
+
+                Method method = getActivity().getClass().getMethod(methodName, View.class, Date.class);
+                DatePicker datePicker = (DatePicker) getView().findViewById(R.id.datePicker);
+                int day = datePicker.getDayOfMonth();
+                int month = datePicker.getMonth();
+                int year = datePicker.getYear();
+                switch (month) {
+                    case 0:
+                        month = Calendar.JANUARY;
+                        break;
+                    case 1:
+                        month = Calendar.FEBRUARY;
+                        break;
+                    case 2:
+                        month = Calendar.MARCH;
+                        break;
+                    case 3:
+                        month = Calendar.APRIL;
+                        break;
+                    case 4:
+                        month = Calendar.MAY;
+                        break;
+                    case 5:
+                        month = Calendar.JUNE;
+                        break;
+                    case 6:
+                        month = Calendar.JULY;
+                        break;
+                    case 7:
+                        month = Calendar.AUGUST;
+                        break;
+                    case 8:
+                        month = Calendar.SEPTEMBER;
+                        break;
+                    case 9:
+                        month = Calendar.OCTOBER;
+                        break;
+                    case 10:
+                        month = Calendar.NOVEMBER;
+                        break;
+                    case 11:
+                        month = Calendar.DECEMBER;
+                        break;
+                    default:
+                        month = Calendar.JANUARY;
+                        break;
+                }
+                Calendar calendar = Calendar.getInstance();
+                calendar.set(year, month, day);
+
+                Date deadline = calendar.getTime();
+                method.invoke(current, getView(), deadline);
+            } catch (Exception e) {
+                Log.e("METHOD ERROR1", methodName);
             }
-            Calendar calendar = Calendar.getInstance();
-            calendar.set(year, month, day);
+        } else{
+            String studyType = getArguments().getString("studyType");
+            String classType = getArguments().getString("classType");
 
-            Date deadline = calendar.getTime();
-            method.invoke(current,getView(),deadline);
-        } catch (Exception e) {
-            Log.e("METHOD ERROR",methodName);
+            Log.e("study",studyType);
+            Log.e("class",classType);
+            try {
+
+                String className = classType.substring(classType.lastIndexOf(" ")+1);
+                Class c =  Class.forName(className);
+                Method method = getActivity().getClass().getMethod(methodName, View.class, Date.class,String.class,Class.class);
+                DatePicker datePicker = (DatePicker) getView().findViewById(R.id.datePicker);
+                int day = datePicker.getDayOfMonth();
+                int month = datePicker.getMonth();
+                int year = datePicker.getYear();
+                switch (month) {
+                    case 0:
+                        month = Calendar.JANUARY;
+                        break;
+                    case 1:
+                        month = Calendar.FEBRUARY;
+                        break;
+                    case 2:
+                        month = Calendar.MARCH;
+                        break;
+                    case 3:
+                        month = Calendar.APRIL;
+                        break;
+                    case 4:
+                        month = Calendar.MAY;
+                        break;
+                    case 5:
+                        month = Calendar.JUNE;
+                        break;
+                    case 6:
+                        month = Calendar.JULY;
+                        break;
+                    case 7:
+                        month = Calendar.AUGUST;
+                        break;
+                    case 8:
+                        month = Calendar.SEPTEMBER;
+                        break;
+                    case 9:
+                        month = Calendar.OCTOBER;
+                        break;
+                    case 10:
+                        month = Calendar.NOVEMBER;
+                        break;
+                    case 11:
+                        month = Calendar.DECEMBER;
+                        break;
+                    default:
+                        month = Calendar.JANUARY;
+                        break;
+                }
+                Calendar calendar = Calendar.getInstance();
+                calendar.set(year, month, day);
+
+                Date deadline = calendar.getTime();
+                method.invoke(current, getView(), deadline, studyType,c);
+            } catch (Exception e) {
+                Log.e("METHOD ERROR2", methodName);
+                e.printStackTrace();
+            }
         }
     }
 

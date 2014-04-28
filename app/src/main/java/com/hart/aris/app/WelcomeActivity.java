@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+
+import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 import android.util.Log;
@@ -63,6 +65,19 @@ public class WelcomeActivity extends InterventionActivity implements AnswerFragm
         setArisMoodHappy();
         clearAnswer();
         user.setDeadline(d);
+
+        //Add projecte dependant check
+        if(user.getProjectType().equals("exam")){
+            int daysUntilExam = lang.getDaysUntilInt(d);
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(d);
+            cal.add(Calendar.DAY_OF_MONTH,-(2));
+            Log.e("PastPaperDate",cal.toString());
+            Log.e("Month date: ",Integer.toString(cal.get(Calendar.MONTH)));
+            Log.e("Month day: ",Integer.toString(cal.get(Calendar.DAY_OF_MONTH)));
+            Log.e("Month hour: ",Integer.toString(cal.get(Calendar.HOUR_OF_DAY)));
+            addPromise("past paper",PastPaperCheckActivity.class,cal.getTime());
+        }
         setArisText(lang.getTimeReaction(d) + " How do you feel?");
 
         ButtonAnswerFragment readyAnswer = ButtonAnswerFragment.newInstance("I'm confident","confidentResponse", "I should be fine","fineResponse", "I'm screwed","screwedResponse");
@@ -75,6 +90,9 @@ public class WelcomeActivity extends InterventionActivity implements AnswerFragm
         user.addMood(1.0f);
         setArisText("Awesome, " + user.getName() +"! Well I'll check up on you after awhile to just make sure you're still doing fine. Bye!");
         setWelcomeComplete();
+
+        ButtonAnswerFragment thanks = ButtonAnswerFragment.newInstance("Bye Aris!","closeAris","","","","");
+        getSupportFragmentManager().beginTransaction().add(R.id.answerContainer,thanks).commit();
     }
 
     public void setWelcomeComplete(){
@@ -85,9 +103,9 @@ public class WelcomeActivity extends InterventionActivity implements AnswerFragm
     public void fineResponse(View v){
         clearAnswer();
 
-        setArisText("Don't worry " + user.getName()+ ", with me you'll be more than fine. When are you studying next?");
+        setArisText("Don't worry " + user.getName() + ", with me you'll be more than fine. When are you studying next?");
         setWelcomeComplete();
-        nextStudyCheck();
+        nextStudyCheck(lang.getActivityNoun(),ProjectCheck.class);
     }
 
     public void screwedResponse(View v){
@@ -96,13 +114,13 @@ public class WelcomeActivity extends InterventionActivity implements AnswerFragm
         setArisText("Oh no " + user.getName() + ", that's not good. I'm sure we can sort it out. When are you studying next?");
         user.addMood(-1.0f);
         setWelcomeComplete();
-        nextStudyCheck();
+        nextStudyCheck(lang.getActivityNoun(), ProjectCheck.class);
     }
 
     public void dissertationResponse(View v){
         setArisMoodNeutral();
         clearAnswer();
-        setProjectType("dissertation");
+        user.setProjectType("dissertation");
         setArisText("When is your dissertation due?");
         DateAnswerFragment dateFrag = DateAnswerFragment.newInstance("dateResponse");
         getSupportFragmentManager().beginTransaction().add(R.id.answerContainer, dateFrag).commit();
@@ -112,7 +130,8 @@ public class WelcomeActivity extends InterventionActivity implements AnswerFragm
     public void examsResponse(View v){
         setArisMoodNeutral();
         clearAnswer();
-        setProjectType("exam");
+
+        user.setProjectType("exam");
         setArisText("When is your first exam?");
         DateAnswerFragment dateFrag = DateAnswerFragment.newInstance("dateResponse");
         getSupportFragmentManager().beginTransaction().add(R.id.answerContainer, dateFrag).commit();
@@ -121,17 +140,10 @@ public class WelcomeActivity extends InterventionActivity implements AnswerFragm
     public void courseworkResponse(View v){
         setArisMoodNeutral();
         clearAnswer();
-        setProjectType("coursework");
+        user.setProjectType("coursework");
         setArisText("When is your coursework due?");
         DateAnswerFragment dateFrag = DateAnswerFragment.newInstance("dateResponse");
         getSupportFragmentManager().beginTransaction().add(R.id.answerContainer, dateFrag).commit();
-    }
-
-    public void setProjectType(String s){
-        SharedPreferences pref = getSharedPreferences("userdata",MODE_PRIVATE);
-        SharedPreferences.Editor edit = pref.edit();
-        edit.putString("projectType",s);
-        edit.commit();
     }
 
     public void nameUpdate(View v){

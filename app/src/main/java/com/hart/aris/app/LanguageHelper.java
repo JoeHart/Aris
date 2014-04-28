@@ -1,6 +1,7 @@
 package com.hart.aris.app;
 import android.util.Log;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
@@ -14,7 +15,7 @@ public class LanguageHelper {
         this.user = u;
     }
 
-    public String getActivity() {
+    public String getActivityNoun() {
         String projectType = user.getProjectType();
         if (projectType.equals("exam")) {
             return "revision";
@@ -41,23 +42,8 @@ public class LanguageHelper {
     }
 
     public String getTimeUntilString(Date deadline) {
-        int daysLeft = getDaysUntilInt(deadline);
-
-        if (daysLeft == 1) {
-            return "1 day";
-        } else {
-            if (daysLeft < 7) {
-                return daysLeft + " days";
-            } else {
-                if (daysLeft < 30) {
-                    int weeks = daysLeft / 7;
-                    return weeks + " weeks";
-                } else {
-                    int months = daysLeft / 30;
-                    return months + " months";
-                }
-            }
-        }
+       int daysLeft = getDaysUntilInt(deadline);
+       return getTimeUntilString(daysLeft);
     }
 
     public String getTimeUntilString(int daysLeft) {
@@ -70,10 +56,18 @@ public class LanguageHelper {
             } else {
                 if (daysLeft < 30) {
                     int weeks = daysLeft / 7;
-                    return weeks + " weeks";
+                    if(weeks==1){
+                        return weeks + " week";
+                    } else {
+                        return weeks + " weeks";
+                    }
                 } else {
                     int months = daysLeft / 30;
-                    return months + " months";
+                    if(months==1){
+                        return months + " month";
+                    } else {
+                        return months + " months";
+                    }
                 }
             }
         }
@@ -103,19 +97,44 @@ public class LanguageHelper {
 
     public String getTimePhrase(Date d) {
         int daysLeft = getDaysUntilInt(d);
-        if (daysLeft == 1) {
-            return "tomorrow";
+        if(isToday(d)){
+            return "later today";
         } else {
-            if (daysLeft < 7) {
-                return "in a few days";
+            if (daysLeft == 1) {
+                return "tomorrow";
             } else {
-                if (daysLeft < 14) {
-                    return "next week";
+                if (daysLeft < 7) {
+                    return "in a few days";
+                } else {
+                    if (daysLeft < 14) {
+                        return "next week";
+                    }
                 }
-            }
 
+            }
         }
         return null;
+    }
+
+    public boolean isSameDay(Date d1,Date d2){
+        Calendar cal1 = Calendar.getInstance();
+        cal1.setTime(d1);
+        Calendar cal2 = Calendar.getInstance();
+        cal2.setTime(d2);
+        int day1 = cal1.get(Calendar.DAY_OF_MONTH);
+        int day2 = cal2.get(Calendar.DAY_OF_MONTH);
+        Log.e("DAY1:", Integer.toString(day1));
+        Log.e("DAY2:", Integer.toString(day2));
+        if(day1==day2){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean isToday(Date d){
+        Date d2 = new Date();
+        return isSameDay(d,d2);
     }
 }
 

@@ -17,31 +17,33 @@ public class CheckReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         try{
+
             Bundle bundle = intent.getExtras();
             String studyType = bundle.getString("study_type");
-            String classType = bundle.getString("activity_start");
             String name = bundle.getString("name");
+            String classType = bundle.getString("activity_type");
             String className = classType.substring(classType.lastIndexOf(" ")+1);
             Class c =  Class.forName(className);
-            Log.e("Class: ", classType);
-            createNotification(c,context,name);
+            String text = "How's the " + studyType + " going?";
+            createNotification(c,context,name,text);
         } catch (Exception e) {
            // Toast.makeText(context, "There was an error somewhere, but we still received an alarm", Toast.LENGTH_SHORT).show();
             e.printStackTrace();
 
         }}
 
-    public void createNotification(Class activity,Context context, String name) {
+    public void createNotification(Class activity,Context context, String name,String text) {
         // Prepare intent which is triggered if the
+        int requestID = (int) System.currentTimeMillis();
         // notification is selected
+        Log.e("In noti",activity.toString());
         Intent intent = new Intent(context, activity);
-        PendingIntent pIntent = PendingIntent.getActivity(context, 0, intent,  PendingIntent.FLAG_UPDATE_CURRENT);
-
+        PendingIntent pIntent = PendingIntent.getActivity(context, requestID, intent,  PendingIntent.FLAG_UPDATE_CURRENT);
         // Build notification
         // Actions are just fake
         Notification noti = new Notification.Builder(context)
-                .setContentTitle("Hi"+ name+". Can we chat?")
-                .setContentText("It'll only take a few moments!").setSmallIcon(R.drawable.ic_launcher)
+                .setContentTitle("Hi "+ name+". Can we chat?")
+                .setContentText(text).setSmallIcon(R.drawable.ic_launcher)
                 .setContentIntent(pIntent).build();
 
 

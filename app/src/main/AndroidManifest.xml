@@ -45,17 +45,12 @@
             </intent-filter>
         </activity>
 
-        <service
-            android:name="com.hart.aris.app.NotificationService"
-            android:enabled="true"
-            android:exported="true" >
-        </service>
-
         <receiver
             android:name="com.hart.aris.app.CheckReceiver"
             android:enabled="true"
             android:exported="true" >
         </receiver>
+
     </application>
 
 </manifest>

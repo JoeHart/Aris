@@ -30,6 +30,24 @@ public class User {
 
     }
 
+    public void storeHours(int hours){
+        edit.putInt("hours",hours);
+        edit.commit();
+    }
+
+    public int getHours(){
+        return userdata.getInt("hours",0);
+    }
+
+    public void addToTotalHours(int hours){
+        edit.putInt("total_hours", hours);
+        edit.commit();
+    }
+
+    public int getTotalHours(){
+        return userdata.getInt("total_hours",0);
+    }
+
     public float getUserMood(){
         return userdata.getFloat("mood",0.0f);
     }

@@ -36,7 +36,8 @@ public class PastPaperCheckActivity extends InterventionActivity implements Answ
 
     public void addPaperPromise(View v){
         Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.DAY_OF_MONTH,1);
+        //cal.add(Calendar.DAY_OF_MONTH,1);
+        cal.add(Calendar.DATE,1);
         addStudyPromise(v,cal.getTime(),"past_paper",PastPaperCheckActivity.class);
 
     }
@@ -44,7 +45,7 @@ public class PastPaperCheckActivity extends InterventionActivity implements Answ
     public void laterPaper(){
         clearAnswer();
         setArisText("Ok when will you try a past paper?");
-        nextStudyCheck();
+        nextStudyCheck("pastPaper",PastPaperCheckActivity.class);
 
     }
 
@@ -63,6 +64,9 @@ public class PastPaperCheckActivity extends InterventionActivity implements Answ
         setArisMoodHappy();
         user.addMood(1.0f);
         setArisText("Good work " + user.getName() + "! I'm sure you'll ace the exam.");
+
+        ButtonAnswerFragment thanks = ButtonAnswerFragment.newInstance("Thanks Aris!","goodbye","","","","");
+        getSupportFragmentManager().beginTransaction().add(R.id.answerContainer,thanks).commit();
     }
 
     public void neutralResponse(View v){
@@ -86,14 +90,14 @@ public class PastPaperCheckActivity extends InterventionActivity implements Answ
         clearAnswer();
         setArisMoodHappy();
         setArisText("Well that's half the battle, when are you revising what you're weak on?");
-        nextStudyCheck();
+        nextStudyCheck("revising",ProjectCheck.class);
     }
 
     public void noResponse(View v){
         clearAnswer();
         setArisMoodNeutral();
         setArisText("Try going back over the paper and see which parts you struggles on. When do you think you'll do that?");
-        nextStudyCheck();
+        nextStudyCheck("revising",ProjectCheck.class);
     }
     public void onFragmentInteraction(Uri uri){
         clearAnswer();

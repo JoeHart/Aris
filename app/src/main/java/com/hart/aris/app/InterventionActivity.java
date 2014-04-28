@@ -1,6 +1,7 @@
 package com.hart.aris.app;
 
 import android.app.Notification;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -10,6 +11,10 @@ import android.view.Window;
 import android.util.Log;
 import android.speech.tts.TextToSpeech;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.nio.channels.CancelledKeyException;
 import java.util.Calendar;
 import java.util.Locale;
 import java.util.HashMap;
@@ -21,6 +26,7 @@ import android.content.Intent;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.app.NotificationManager;
+import java.util.ArrayList;
 
 public class InterventionActivity extends FragmentActivity implements ButtonAnswerFragment.OnFragmentInteractionListener, TextToSpeech.OnInitListener{
     private TextView arisText;
@@ -30,6 +36,9 @@ public class InterventionActivity extends FragmentActivity implements ButtonAnsw
     ArisTriangleFragment arisFace;
     public User user;
     public LanguageHelper lang;
+    public ArrayList<Date> interventionDates;
+
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,7 +49,8 @@ public class InterventionActivity extends FragmentActivity implements ButtonAnsw
         map = new HashMap<String, String>();
         tts = new TextToSpeech(this, this);
         lang = new LanguageHelper(user);
-        tts.setOnUtteranceProgressListener(new UtteranceProgressListener() {
+        interventionDates = new ArrayList<Date>();
+            tts.setOnUtteranceProgressListener(new UtteranceProgressListener() {
             @Override
             public void onStart(String s) {
             Log.e("Started", s);
@@ -86,7 +96,7 @@ public class InterventionActivity extends FragmentActivity implements ButtonAnsw
 
     public void setArisMoodWorried(){
         arisFace.worry();
-        tts.setPitch(0.9f);
+        tts.setPitch(0.85f);
     }
 
     public void onPause(){
@@ -94,81 +104,91 @@ public class InterventionActivity extends FragmentActivity implements ButtonAnsw
         finish();
     }
 
-    public boolean dateCheck(View v, Date d){
+    public boolean dateCheck(View v, Date d, String studyType,Class activity){
         if(lang.getDaysUntilInt(user.getDeadline())>lang.getDaysUntilInt(d)) {
             if (lang.getDaysUntilInt(d) < 14) {
-                //TODO: SOrt this shit out
-                addStudyPromise(v,d,"study",PastPaperCheckActivity.class);
+                addStudyPromise(v,d,studyType,activity);
                 return true;
             } else {
                 clearAnswer();
                 setArisText("That's not very soon! You've only got " + lang.getTimeUntilString(user.getDeadline()));
-                nextStudyCheck();
+                nextStudyCheck(studyType,activity);
                 return false;
             }
         }else{
             setArisText("Don't be silly " + user.getName() + ". That's after your " + user.getStringDeadline() + ". When will you study next?");
-            nextStudyCheck();
+            nextStudyCheck(studyType,activity);
             return false;
         }
     }
 
+
     public void nextStudyCheck(String studyType, Class activity){
         clearAnswer();
-        DateAnswerFragment date = DateAnswerFragment.newInstance("dateCheck");
+        DateAnswerFragment date = DateAnswerFragment.newInstance("dateCheck",studyType,activity);
         getSupportFragmentManager().beginTransaction().add(R.id.answerContainer,date).commit();
     }
 
+    public Date setTime(int hour,Date d){
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(d);
+        cal.set(Calendar.HOUR_OF_DAY,hour);
+        return cal.getTime();
+    }
+
     public void addStudyPromise(View v, Date d,String studyType,Class activity){
+        Date dNew = setTime(15,d);
+        Log.e("AddStudyPromisDin",d.toString());
+        Log.e("AddStudyPromiseDnew",dNew.toString());
+        if(lang.isToday(d)){
+            Calendar cal =Calendar.getInstance();
+            int currentHour = cal.get(Calendar.HOUR_OF_DAY);
+            dNew = setTime(currentHour+3,d);
+        }
 
-
-        /*Intent myIntent = new Intent(this , NotificationService.class);
-        AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
-        pendingIntent = PendingIntent.getService(ThisApp.this, 0, myIntent, 0);
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, 12);
-        calendar.set(Calendar.MINUTE, 00);
-        calendar.set(Calendar.SECOND, 00);
-        long time = d.getTime();
-
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, time, 24*60*60*1000 , pendingIntent);  //set repeating every 24 hours*/
-        addPromise(studyType,activity,d);
+        Log.e("AddStudyPromiseDnewFinal",dNew.toString());
+        addPromise(studyType, activity, dNew);
         setArisMoodHappy();
         setArisText("I'll catch up with you " + lang.getTimePhrase(d));
         clearAnswer();
-
-
         ButtonAnswerFragment thanks = ButtonAnswerFragment.newInstance("Bye Aris!","closeAris","","","","");
         getSupportFragmentManager().beginTransaction().add(R.id.answerContainer,thanks).commit();
     }
 
-    public void addPromise(String StudyType,Class activity,Date d){
-        // get a Calendar object with current time
+    public void storeDate(Date d){
         Calendar cal = Calendar.getInstance();
-        // add 5 minutes to the calendar object
-        cal.add(Calendar.MINUTE, 1);
-        Calendar deadline = Calendar.getInstance();
-        deadline.setTime(d);
-        int day= deadline.get(Calendar.DAY_OF_MONTH);
-        int month = deadline.get(Calendar.MONTH);
-        int year = deadline.get(Calendar.YEAR);
-        Calendar deadlineTime = Calendar.getInstance();
-        deadlineTime.set(year,month,day,15,0,0);
+        cal.setTime(d);
+        SharedPreferences pref = getSharedPreferences("appData", MODE_PRIVATE);
+        SharedPreferences.Editor edit = pref.edit();
+        edit.putString(Integer.toString(cal.get(Calendar.DATE)),"yes");
+        edit.commit();
+    }
+
+    public boolean getDate(int date){
+        SharedPreferences pref = getSharedPreferences("appData",MODE_PRIVATE);
+        String dateString = pref.getString(Integer.toString(date),"");
+        return !dateString.isEmpty();
+    }
+
+
+    public void addPromise(String StudyType,Class activity,Date d){
+
+        Log.e("date", d.toString());
+        storeDate(d);
         Intent intent = new Intent(this, CheckReceiver.class);
-        intent.putExtra("activity_start", activity.toString());
+        intent.putExtra("activity_type", activity.toString());
         intent.putExtra("study_type", StudyType);
         intent.putExtra("name",user.getName());
         // In reality, you would want to have a static variable for the request code instead of 192837
         PendingIntent sender = PendingIntent.getBroadcast(this, 192837, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
         // Get the AlarmManager service
         AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
-        am.set(AlarmManager.RTC_WAKEUP, deadlineTime.getTimeInMillis(), sender);
+        am.set(AlarmManager.RTC_WAKEUP, d.getTime(), sender);
 
     }
 
     public void howManyHours(View view){
+        clearAnswer();
         setArisText("How many hours did you " + user.getProjectVerb() + " today?");
         HoursAnswerFragment hours = HoursAnswerFragment.newInstance("hoursReaction");
 
@@ -193,6 +213,17 @@ public class InterventionActivity extends FragmentActivity implements ButtonAnsw
                 setArisText("I know you can do better. If you focus I'm sure you'll succeed");
             }
         }
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, 1);
+        int tomorrowDate = cal.get(Calendar.DATE);
+        if(getDate(tomorrowDate)) {
+        //do nothing because there is already an interaction
+        }else {
+            //add interaction tomorrow at random time between 10am and 3pm
+
+            addPromise(lang.getActivityNoun(), ProjectCheck.class, cal.getTime());
+        Log.e("Added promise",cal.getTime().toString());
+        }
 
 
         ButtonAnswerFragment thanks = ButtonAnswerFragment.newInstance("Bye Aris!","closeAris","","","","");
@@ -203,44 +234,47 @@ public class InterventionActivity extends FragmentActivity implements ButtonAnsw
         finish();
     }
 
-    public void hoursReaction(View v, int hours){
+    public void hoursReaction(View v, int hours) {
         clearAnswer();
-        if(hours>5){
+        int oldHours = user.getHours();
+        user.storeHours(hours);
+        user.addToTotalHours(hours);
+
+        if (hours > oldHours) {
             setArisMoodHappy();
-            setArisText(hours + " hours! Good Job!");
-            ButtonAnswerFragment thanks = ButtonAnswerFragment.newInstance("Thanks Aris!","goodbye","","","","");
-                    getSupportFragmentManager().beginTransaction().add(R.id.answerContainer,thanks).commit();
-            addPromise("dissertation",PastPaperCheckActivity.class,new Date());
+            setArisText(hours + " hours! That's " +(hours-oldHours) +" more that last time!");
+            ButtonAnswerFragment thanks = ButtonAnswerFragment.newInstance("Thanks Aris!", "goodbye", "", "", "", "");
+            getSupportFragmentManager().beginTransaction().add(R.id.answerContainer, thanks).commit();
             user.addMood(1.0f);
 
-        } else{
-            if(hours>2){
+        }else{
+        if (hours > 5) {
+            setArisMoodHappy();
+            setArisText(hours + " hours! Good Job!");
+            ButtonAnswerFragment thanks = ButtonAnswerFragment.newInstance("Thanks Aris!", "goodbye", "", "", "", "");
+            getSupportFragmentManager().beginTransaction().add(R.id.answerContainer, thanks).commit();
+            user.addMood(1.0f);
+
+        } else {
+            if (hours > 2) {
                 setArisMoodHappy();
-                int tomorrow = hours+1;
+                int tomorrow = hours + 1;
                 setArisText(hours + " hours, thats ok. Try and aim for " + tomorrow + " hours tomorrow.");
                 user.addMood(0.4f);
-                ButtonAnswerFragment thanks = ButtonAnswerFragment.newInstance("I'll try!","goodbye","","","","");
-                addPromise("dissertation",PastPaperCheckActivity.class,new Date());
-                getSupportFragmentManager().beginTransaction().add(R.id.answerContainer,thanks).commit();
-            } else{
+                ButtonAnswerFragment thanks = ButtonAnswerFragment.newInstance("I'll try!", "goodbye", "", "", "", "");
+                getSupportFragmentManager().beginTransaction().add(R.id.answerContainer, thanks).commit();
+            } else {
                 setArisMoodWorried();
                 user.addMood(-1.0f);
                 setArisText("That's not a lot, will you try and do more tomorrow?");
 
-                ButtonAnswerFragment thanks = ButtonAnswerFragment.newInstance("I'll try!","goodbye","","","","");
-                addPromise("dissertation",PastPaperCheckActivity.class,new Date());
-                getSupportFragmentManager().beginTransaction().add(R.id.answerContainer,thanks).commit();
+                ButtonAnswerFragment thanks = ButtonAnswerFragment.newInstance("I'll try!", "goodbye", "", "", "", "");
+                getSupportFragmentManager().beginTransaction().add(R.id.answerContainer, thanks).commit();
             }
         }
-
-
-        storeRevisionHours(hours);
+    }
     }
 
-    public void storeRevisionHours(int hours){
-        Date today = new Date();
-        long todayLong = today.getTime();
-    }
 
 
     public void createNotification(View view,Class activity) {

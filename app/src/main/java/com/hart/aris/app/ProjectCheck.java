@@ -4,14 +4,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 
-import android.app.PendingIntent;
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.content.Intent;
 import java.util.Calendar;
-import android.app.AlarmManager;
 import java.util.Date;
 import android.util.Log;
+import android.content.Intent;
+
 public class ProjectCheck extends InterventionActivity implements AnswerFragment.OnFragmentInteractionListener {
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +22,7 @@ public class ProjectCheck extends InterventionActivity implements AnswerFragment
             }
             ButtonAnswerFragment firstAnswer = ButtonAnswerFragment.newInstance("Great!", "positiveResponse", "Alright", "neutralResponse", "I'm worried.", "notResponse");
 
-            setArisText("How's the " + lang.getActivity() +  " going?");
+            setArisText("How's the " + lang.getActivityNoun() +  " going?");
             //setArisText("I'm sorry Dave, I'm afraid I can't do that.");
             getSupportFragmentManager().beginTransaction().add(R.id.answerContainer,firstAnswer).commit();
         }
@@ -54,12 +51,24 @@ public class ProjectCheck extends InterventionActivity implements AnswerFragment
             howManyHours(view);
 
         } else{
-            setArisText("Are you going to revise today?");
+            setArisText("Are you going to " + user.getProjectVerb() + " today?");
 
-
+            ButtonAnswerFragment thanks = ButtonAnswerFragment.newInstance("Yes","laterToday","No","noResponse","I already have","howManyHours");
+            getSupportFragmentManager().beginTransaction().add(R.id.answerContainer,thanks).commit();
         }
+    }
 
+    public void laterToday(View view){
+        clearAnswer();
+        setArisMoodHappy();
+        setArisText("Ok I'll catch up with you later today.");
+        Calendar cal = Calendar.getInstance();
 
+        Log.e("Hour of day", Integer.toString(cal.get(Calendar.HOUR_OF_DAY)));
+        addPromise(lang.getActivityNoun(),ProjectCheck.class,cal.getTime());
+
+        ButtonAnswerFragment thanks = ButtonAnswerFragment.newInstance("See you then","goodbye","","","","");
+        getSupportFragmentManager().beginTransaction().add(R.id.answerContainer,thanks).commit();
     }
 
     public void notResponse(View view){
@@ -95,16 +104,27 @@ public class ProjectCheck extends InterventionActivity implements AnswerFragment
         //TODO: Fetch ted talk to do with persons subject
         clearAnswer();
         setArisMoodHappy();
-        setArisText("Try watching a TED TALK!");
-        ButtonAnswerFragment thanks = ButtonAnswerFragment.newInstance("I'll try that.","goodbye","","","","");
+        setArisText("Try watching a ted talk about your subject. Here I've searched for some for you.");
+        ButtonAnswerFragment thanks = ButtonAnswerFragment.newInstance("View Ted Talks","tedTalk","I'll watch one later","goodbye","","");
         getSupportFragmentManager().beginTransaction().add(R.id.answerContainer,thanks).commit();
+    }
+
+    public void tedTalk(View view){
+        String url = "https://www.ted.com/search?q=";
+        String subject = user.getSubject();
+        subject = subject.replace(" ","+");
+        String urlSearch = url + subject;
+        Intent i = new Intent(Intent.ACTION_VIEW);
+        i.setData(Uri.parse(urlSearch));
+        startActivity(i);
+
     }
 
     public void terribleResponse(View view){
         //user.addMood(-1.0f);
         setArisMoodHappy();
         clearAnswer();
-        setArisText("Try and excercise in the morning before you revise. It'll really wake you up.");
+        setArisText("Try and excercise in the morning before you "+ user.getProjectVerb() +". It'll really wake you up.");
         ButtonAnswerFragment thanks = ButtonAnswerFragment.newInstance("Thanks for the advice Aris","goodbye","","","","");
         getSupportFragmentManager().beginTransaction().add(R.id.answerContainer,thanks).commit();
     }
