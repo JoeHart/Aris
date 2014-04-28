@@ -5,33 +5,34 @@
     tools:context="com.hart.aris.app.ButtonAnswerFragment">
 
     <LinearLayout
-        android:orientation="vertical"
+        android:id="@+id/buttonContainer"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:id="@+id/buttonContainer">
+        android:orientation="vertical">
+
         <Button
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:text="Text 1"
             android:id="@+id/button1"
-            android:layout_weight="1"
-            android:onClick="positiveResponse" />
-
-        <Button
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:text="Text 2"
+            android:layout_weight="1"
+            android:onClick="positiveResponse"
+            android:text="Text 1" />
+
+        <Button
             android:id="@+id/button2"
-            android:layout_weight="1"
-            android:onClick="neutralResponse"/>
-
-        <Button
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:text="Text 3"
-            android:id="@+id/button3"
             android:layout_weight="1"
-            android:onClick="notResponse"/>
+            android:onClick="neutralResponse"
+            android:text="Text 2" />
+
+        <Button
+            android:id="@+id/button3"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:onClick="notResponse"
+            android:text="Text 3" />
 
 
     </LinearLayout>

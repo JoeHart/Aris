@@ -6,25 +6,25 @@
 
 
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+        android:layout_height="fill_parent"
+        android:orientation="horizontal">
 
         <DatePicker
+            android:id="@+id/datePicker"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/datePicker"
             android:layout_weight="1"
-            android:spinnersShown="true"
-            android:calendarViewShown="false" />
+            android:calendarViewShown="false"
+            android:spinnersShown="true" />
 
         <Button
+            android:id="@+id/submitButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Submit"
-            android:id="@+id/submitButton"
+            android:layout_gravity="center_vertical"
             android:onClick="e"
-            android:layout_gravity="center_vertical" />
+            android:text="Submit" />
 
     </LinearLayout>
 </FrameLayout>

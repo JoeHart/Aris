@@ -1,9 +1,9 @@
 package com.hart.aris.app;
 
 import android.app.Activity;
+import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.content.Context;
 
 import java.lang.reflect.Method;
 
@@ -23,9 +22,12 @@ import java.lang.reflect.Method;
  * to handle interaction events.
  * Use the {@link com.hart.aris.app.TextAnswerFragment#newInstance} factory method to
  * create an instance of this fragment.
- *
  */
 public class TextAnswerFragment extends AnswerFragment {
+
+    public TextAnswerFragment() {
+        // Required empty public constructor
+    }
 
     /**
      * Use this factory method to create a new instance of
@@ -38,12 +40,9 @@ public class TextAnswerFragment extends AnswerFragment {
     public static TextAnswerFragment newInstance(String method) {
         TextAnswerFragment fragment = new TextAnswerFragment();
         Bundle args = new Bundle();
-        args.putString("methodString",method);
+        args.putString("methodString", method);
         fragment.setArguments(args);
         return fragment;
-    }
-    public TextAnswerFragment() {
-        // Required empty public constructor
     }
 
     @Override
@@ -63,32 +62,31 @@ public class TextAnswerFragment extends AnswerFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if (getArguments() != null) {
-            Button buttonView1 =(Button) this.getView().findViewById(R.id.submitButton);
+            Button buttonView1 = (Button) this.getView().findViewById(R.id.submitButton);
 
             //Set methods to be called when buttons are clickerd
-           buttonView1.setOnClickListener(new View.OnClickListener() {
+            buttonView1.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View view) {
                     method(getArguments().getString("methodString"));
 
-                    }
-                 });
-
+                }
+            });
 
 
         }
     }
 
-    public void method(String methodName){
+    public void method(String methodName) {
         Activity current = getActivity();
         try {
 
-            Method method = getActivity().getClass().getMethod(methodName,View.class,String.class);
+            Method method = getActivity().getClass().getMethod(methodName, View.class, String.class);
             EditText eText = (EditText) getView().findViewById(R.id.nameEditText);
             hideKeyboard(eText);
             String name = eText.getText().toString();
-            method.invoke(current,getView(),name);
+            method.invoke(current, getView(), name);
         } catch (Exception e) {
-            Log.e("METHOD ERROR",methodName);
+            Log.e("METHOD ERROR", methodName);
         }
     }
 
@@ -100,7 +98,7 @@ public class TextAnswerFragment extends AnswerFragment {
     }
 
 
-    public void hideKeyboard(EditText et){
+    public void hideKeyboard(EditText et) {
         InputMethodManager imm = (InputMethodManager) this.getActivity().getSystemService(
                 Context.INPUT_METHOD_SERVICE);
 

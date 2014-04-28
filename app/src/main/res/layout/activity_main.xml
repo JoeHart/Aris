@@ -1,80 +1,80 @@
-<LinearLayout xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    android:orientation="vertical">
 
     <FrameLayout
+        android:id="@+id/arisTriangleContainer"
+        style="@style/AppTheme"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_weight="1"
-        style="@style/AppTheme"
-        android:id="@+id/arisTriangleContainer">
+        android:layout_weight="1">
 
     </FrameLayout>
 
     <FrameLayout
+        style="@style/AppTheme"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_weight="1"
-        style="@style/AppTheme">
+        android:layout_weight="1">
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
+            android:layout_height="fill_parent"
+            android:orientation="vertical">
 
             <TextView
+                android:id="@+id/arisTextView1"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Hi There!"
-                android:id="@+id/arisTextView1"
                 android:layout_gravity="center|top"
                 android:fontFamily="sans-serif-thin"
-                android:textSize="20dp"
+                android:gravity="center"
                 android:longClickable="false"
                 android:maxWidth="300dp"
+                android:text="Hi There!"
                 android:textAlignment="center"
-                android:visibility="invisible"
-                android:gravity="center" />
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textSize="20dp"
+                android:visibility="invisible" />
 
             <TextView
+                android:id="@+id/arisTextView2"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="I'm Aris."
-                android:id="@+id/arisTextView2"
                 android:layout_gravity="center"
                 android:fontFamily="sans-serif-thin"
-                android:textSize="20dp"
+                android:gravity="center"
                 android:longClickable="false"
                 android:maxWidth="300dp"
+                android:text="I'm Aris."
                 android:textAlignment="center"
-                android:gravity="center" />
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textSize="20dp" />
 
             <TextView
+                android:id="@+id/arisTextView3"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="And I'm here to help."
-                android:id="@+id/arisTextView3"
                 android:layout_gravity="center_horizontal|bottom"
                 android:fontFamily="sans-serif-thin"
-                android:textSize="32dp"
+                android:gravity="center"
                 android:longClickable="false"
                 android:maxWidth="300dp"
+                android:text="And I'm here to help."
                 android:textAlignment="center"
-                android:gravity="center" />
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textSize="32dp" />
         </LinearLayout>
     </FrameLayout>
 
     <FrameLayout
+        android:id="@+id/answerContainer"
+        style="@style/AppTheme"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_weight="1"
-        android:id="@+id/answerContainer"
-        style="@style/AppTheme">
+        android:layout_weight="1">
 
     </FrameLayout>
 </LinearLayout>

@@ -3,12 +3,11 @@ package com.hart.aris.app;
 import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.util.Log;
 
 import java.lang.reflect.Method;
 
@@ -20,9 +19,12 @@ import java.lang.reflect.Method;
  * to handle interaction events.
  * Use the {@link ButtonAnswerFragment#newInstance} factory method to
  * create an instance of this fragment.
- *
  */
 public class ButtonAnswerFragment extends AnswerFragment {
+
+    public ButtonAnswerFragment() {
+        // Required empty public constructor
+    }
 
     /**
      * Use this factory method to create a new instance of
@@ -35,22 +37,18 @@ public class ButtonAnswerFragment extends AnswerFragment {
      * @param button3 Text for the first button
      * @param method3 method to call when first button pressed
      * @return A new instance of fragment ButtonAnswerFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ButtonAnswerFragment newInstance(String button1, String method1,String button2,String method2,String button3,String method3) {
+    */
+    public static ButtonAnswerFragment newInstance(String button1, String method1, String button2, String method2, String button3, String method3) {
         ButtonAnswerFragment fragment = new ButtonAnswerFragment();
         Bundle args = new Bundle();
-        args.putString("buttonString1",button1);
-        args.putString("buttonString2",button2);
-        args.putString("buttonString3",button3);
-        args.putString("methodString1",method1);
-        args.putString("methodString2",method2);
-        args.putString("methodString3",method3);
+        args.putString("buttonString1", button1);
+        args.putString("buttonString2", button2);
+        args.putString("buttonString3", button3);
+        args.putString("methodString1", method1);
+        args.putString("methodString2", method2);
+        args.putString("methodString3", method3);
         fragment.setArguments(args);
         return fragment;
-    }
-    public ButtonAnswerFragment() {
-        // Required empty public constructor
     }
 
     @Override
@@ -71,16 +69,16 @@ public class ButtonAnswerFragment extends AnswerFragment {
         super.onViewCreated(view, savedInstanceState);
         if (getArguments() != null) {
             View container = this.getView().findViewById(R.id.answerContainer);
-            Button buttonView1 =(Button) this.getView().findViewById(R.id.button1);
-            Button buttonView2 =(Button) this.getView().findViewById(R.id.button2);
-            Button buttonView3 =(Button) this.getView().findViewById(R.id.button3);
+            Button buttonView1 = (Button) this.getView().findViewById(R.id.button1);
+            Button buttonView2 = (Button) this.getView().findViewById(R.id.button2);
+            Button buttonView3 = (Button) this.getView().findViewById(R.id.button3);
 
             //Set methods to be called when buttons are clickerd
             buttonView1.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View view) {
                     method(getArguments().getString("methodString1"));
-                    }
-                 });
+                }
+            });
             buttonView2.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View view) {
                     method(getArguments().getString("methodString2"));
@@ -94,51 +92,48 @@ public class ButtonAnswerFragment extends AnswerFragment {
             String bString1 = getArguments().getString("buttonString1");
             String bString2 = getArguments().getString("buttonString2");
             String bString3 = getArguments().getString("buttonString3");
-            if(bString1.isEmpty()){
+            if (bString1.isEmpty()) {
                 buttonView1.setVisibility(View.INVISIBLE);
                 buttonView1.setAlpha(0.0f);
-            } else{
+            } else {
                 buttonView1.setText(bString1);
             }
-            if(bString2.isEmpty()){
+            if (bString2.isEmpty()) {
                 buttonView2.setVisibility(View.INVISIBLE);
                 buttonView2.setAlpha(0.0f);
-            } else{
+            } else {
                 buttonView2.setText(bString2);
             }
-            if(bString3.isEmpty()){
+            if (bString3.isEmpty()) {
                 buttonView3.setVisibility(View.INVISIBLE);
                 buttonView3.setAlpha(0.0f);
-            } else{
+            } else {
                 buttonView3.setText(bString3);
             }
 
 
-
         }
     }
 
-    public void method(String methodName){
-        Button buttonView1 =(Button) this.getView().findViewById(R.id.button1);
+    public void method(String methodName) {
+        Button buttonView1 = (Button) this.getView().findViewById(R.id.button1);
         Activity current = getActivity();
         try {
 
-            Method method = getActivity().getClass().getMethod(methodName,View.class);
-            method.invoke(current,getView());
+            Method method = getActivity().getClass().getMethod(methodName, View.class);
+            method.invoke(current, getView());
         } catch (Exception e) {
-            Log.e("METHOD ERROR",methodName);
+            Log.e("METHOD ERROR", methodName);
             e.printStackTrace();
         }
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
         }
     }
 
-    @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         try {
@@ -149,7 +144,6 @@ public class ButtonAnswerFragment extends AnswerFragment {
         }
     }
 
-    @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;

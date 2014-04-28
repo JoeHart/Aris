@@ -1,11 +1,11 @@
 package com.hart.aris.app;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.content.Intent;
 
 /**
  * Class for starting the correct activity.
@@ -15,15 +15,15 @@ public class StarterActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SharedPreferences appData = getSharedPreferences("app_data",MODE_PRIVATE);
+        SharedPreferences appData = getSharedPreferences("app_data", MODE_PRIVATE);
         Intent intent;
-       //appData.getBoolean("setup_completed",false)
-        boolean completed = appData.getBoolean("setup_completed",false);
-        if(completed){
+        //appData.getBoolean("setup_completed",false)
+        boolean completed = appData.getBoolean("setup_completed", false);
+        if (completed) {
             intent = new Intent(this, ProjectCheck.class);
         } else {
 
-            intent = new Intent(this,WelcomeActivity.class);
+            intent = new Intent(this, WelcomeActivity.class);
         }
 
         startActivity(intent);

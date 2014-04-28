@@ -1,49 +1,49 @@
-<LinearLayout xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    android:orientation="vertical">
 
     <FrameLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_weight="1"
+        android:id="@+id/arisTriangleContainer"
         style="@style/AppTheme"
-        android:id="@+id/arisTriangleContainer">
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="1">
 
     </FrameLayout>
 
     <FrameLayout
+        style="@style/AppTheme"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_weight="1"
-        style="@style/AppTheme">
+        android:layout_weight="1">
 
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="How's the"
-                android:id="@+id/arisTextView"
-                android:layout_gravity="center|top"
-                android:fontFamily="sans-serif-thin"
-                android:textSize="22dp"
-                android:longClickable="false"
-                android:maxWidth="200dp"
-                android:textAlignment="center"
-                android:visibility="visible"
-                android:gravity="center"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp" />
+        <TextView
+            android:id="@+id/arisTextView"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|top"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:fontFamily="sans-serif-thin"
+            android:gravity="center"
+            android:longClickable="false"
+            android:maxWidth="200dp"
+            android:text="How's the"
+            android:textAlignment="center"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textSize="22dp"
+            android:visibility="visible" />
 
     </FrameLayout>
 
     <FrameLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_weight="1"
         android:id="@+id/answerContainer"
-        style="@style/AppTheme">
+        style="@style/AppTheme"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="1">
 
     </FrameLayout>
 </LinearLayout>

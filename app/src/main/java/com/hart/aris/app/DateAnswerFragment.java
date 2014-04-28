@@ -1,6 +1,7 @@
 package com.hart.aris.app;
 
 import android.app.Activity;
+import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,10 +12,10 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.content.Context;
+
+import java.lang.reflect.Method;
 import java.util.Calendar;
 import java.util.Date;
-import java.lang.reflect.Method;
 
 
 /**
@@ -24,9 +25,12 @@ import java.lang.reflect.Method;
  * to handle interaction events.
  * Use the {@link com.hart.aris.app.TextAnswerFragment#newInstance} factory method to
  * create an instance of this fragment.
- *
  */
 public class DateAnswerFragment extends AnswerFragment {
+
+    public DateAnswerFragment() {
+        // Required empty public constructor
+    }
 
     /**
      * Use this factory method to create a new instance of
@@ -39,21 +43,19 @@ public class DateAnswerFragment extends AnswerFragment {
     public static DateAnswerFragment newInstance(String method) {
         DateAnswerFragment fragment = new DateAnswerFragment();
         Bundle args = new Bundle();
-        args.putString("methodString",method);
+        args.putString("methodString", method);
         fragment.setArguments(args);
         return fragment;
     }
-    public static DateAnswerFragment newInstance(String method,String studyType, Class activity) {
+
+    public static DateAnswerFragment newInstance(String method, String studyType, Class activity) {
         DateAnswerFragment fragment = new DateAnswerFragment();
         Bundle args = new Bundle();
-        args.putString("methodString",method);
-        args.putString("studyType",studyType);
-        args.putString("classType",activity.toString());
+        args.putString("methodString", method);
+        args.putString("studyType", studyType);
+        args.putString("classType", activity.toString());
         fragment.setArguments(args);
         return fragment;
-    }
-    public DateAnswerFragment() {
-        // Required empty public constructor
     }
 
     @Override
@@ -73,7 +75,7 @@ public class DateAnswerFragment extends AnswerFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if (getArguments() != null) {
-            Button buttonView1 =(Button) this.getView().findViewById(R.id.submitButton);
+            Button buttonView1 = (Button) this.getView().findViewById(R.id.submitButton);
 
             //Set methods to be called when buttons are clickerd
             buttonView1.setOnClickListener(new View.OnClickListener() {
@@ -88,16 +90,15 @@ public class DateAnswerFragment extends AnswerFragment {
             long time = cal.getTimeInMillis();
             Date today = new Date();
             long todayLong = today.getTime();
-            datePicker.setMinDate(time-1000);
-
+            datePicker.setMinDate(time - 1000);
 
 
         }
     }
 
-    public void method(String methodName){
+    public void method(String methodName) {
         Activity current = getActivity();
-        if(getArguments().getString("studyType","").isEmpty()) {
+        if (getArguments().getString("studyType", "").isEmpty()) {
 
             try {
 
@@ -155,17 +156,17 @@ public class DateAnswerFragment extends AnswerFragment {
             } catch (Exception e) {
                 Log.e("METHOD ERROR1", methodName);
             }
-        } else{
+        } else {
             String studyType = getArguments().getString("studyType");
             String classType = getArguments().getString("classType");
 
-            Log.e("study",studyType);
-            Log.e("class",classType);
+            Log.e("study", studyType);
+            Log.e("class", classType);
             try {
 
-                String className = classType.substring(classType.lastIndexOf(" ")+1);
-                Class c =  Class.forName(className);
-                Method method = getActivity().getClass().getMethod(methodName, View.class, Date.class,String.class,Class.class);
+                String className = classType.substring(classType.lastIndexOf(" ") + 1);
+                Class c = Class.forName(className);
+                Method method = getActivity().getClass().getMethod(methodName, View.class, Date.class, String.class, Class.class);
                 DatePicker datePicker = (DatePicker) getView().findViewById(R.id.datePicker);
                 int day = datePicker.getDayOfMonth();
                 int month = datePicker.getMonth();
@@ -215,7 +216,7 @@ public class DateAnswerFragment extends AnswerFragment {
                 calendar.set(year, month, day);
 
                 Date deadline = calendar.getTime();
-                method.invoke(current, getView(), deadline, studyType,c);
+                method.invoke(current, getView(), deadline, studyType, c);
             } catch (Exception e) {
                 Log.e("METHOD ERROR2", methodName);
                 e.printStackTrace();
@@ -231,7 +232,7 @@ public class DateAnswerFragment extends AnswerFragment {
     }
 
 
-    public void hideKeyboard(EditText et){
+    public void hideKeyboard(EditText et) {
         InputMethodManager imm = (InputMethodManager) this.getActivity().getSystemService(
                 Context.INPUT_METHOD_SERVICE);
 

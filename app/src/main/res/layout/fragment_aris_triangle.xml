@@ -5,16 +5,16 @@
     tools:context="com.hart.aris.app.ArisTriangleFragment">
 
     <FrameLayout
+        android:id="@+id/first"
+        style="@style/AppTheme"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_weight="1"
-        style="@style/AppTheme"
-        android:id="@+id/first">
+        android:layout_weight="1">
 
         <ImageView
+            android:id="@+id/arisFace"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/arisFace"
             android:layout_gravity="center"
             android:src="@drawable/arisface" />
     </FrameLayout>

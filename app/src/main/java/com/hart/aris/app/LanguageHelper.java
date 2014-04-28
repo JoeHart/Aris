@@ -1,4 +1,5 @@
 package com.hart.aris.app;
+
 import android.util.Log;
 
 import java.util.Calendar;
@@ -13,6 +14,14 @@ public class LanguageHelper {
 
     public LanguageHelper(User u) {
         this.user = u;
+    }
+
+    public static int safeLongToInt(long l) {
+        if (l < Integer.MIN_VALUE || l > Integer.MAX_VALUE) {
+            throw new IllegalArgumentException
+                    (l + " cannot be cast to int without changing its value.");
+        }
+        return (int) l;
     }
 
     public String getActivityNoun() {
@@ -42,8 +51,8 @@ public class LanguageHelper {
     }
 
     public String getTimeUntilString(Date deadline) {
-       int daysLeft = getDaysUntilInt(deadline);
-       return getTimeUntilString(daysLeft);
+        int daysLeft = getDaysUntilInt(deadline);
+        return getTimeUntilString(daysLeft);
     }
 
     public String getTimeUntilString(int daysLeft) {
@@ -56,14 +65,14 @@ public class LanguageHelper {
             } else {
                 if (daysLeft < 30) {
                     int weeks = daysLeft / 7;
-                    if(weeks==1){
+                    if (weeks == 1) {
                         return weeks + " week";
                     } else {
                         return weeks + " weeks";
                     }
                 } else {
                     int months = daysLeft / 30;
-                    if(months==1){
+                    if (months == 1) {
                         return months + " month";
                     } else {
                         return months + " months";
@@ -87,17 +96,9 @@ public class LanguageHelper {
         }
     }
 
-    public static int safeLongToInt(long l) {
-        if (l < Integer.MIN_VALUE || l > Integer.MAX_VALUE) {
-            throw new IllegalArgumentException
-                    (l + " cannot be cast to int without changing its value.");
-        }
-        return (int) l;
-    }
-
     public String getTimePhrase(Date d) {
         int daysLeft = getDaysUntilInt(d);
-        if(isToday(d)){
+        if (isToday(d)) {
             return "later today";
         } else {
             if (daysLeft == 1) {
@@ -116,7 +117,7 @@ public class LanguageHelper {
         return null;
     }
 
-    public boolean isSameDay(Date d1,Date d2){
+    public boolean isSameDay(Date d1, Date d2) {
         Calendar cal1 = Calendar.getInstance();
         cal1.setTime(d1);
         Calendar cal2 = Calendar.getInstance();
@@ -125,16 +126,16 @@ public class LanguageHelper {
         int day2 = cal2.get(Calendar.DAY_OF_MONTH);
         Log.e("DAY1:", Integer.toString(day1));
         Log.e("DAY2:", Integer.toString(day2));
-        if(day1==day2){
+        if (day1 == day2) {
             return true;
         } else {
             return false;
         }
     }
 
-    public boolean isToday(Date d){
+    public boolean isToday(Date d) {
         Date d2 = new Date();
-        return isSameDay(d,d2);
+        return isSameDay(d, d2);
     }
 }
 

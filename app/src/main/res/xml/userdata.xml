@@ -2,11 +2,10 @@
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <EditTextPreference
-        android:key="name"
-        android:title="Display Name"
-        android:summary="The name I will call you."
         android:defaultValue="default"
-        />
+        android:key="name"
+        android:summary="The name I will call you."
+        android:title="Display Name" />
 
 
 </PreferenceScreen>
