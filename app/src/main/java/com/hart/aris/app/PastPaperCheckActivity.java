@@ -4,6 +4,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 
+import java.util.Calendar;
+import java.util.Date;
+
 public class PastPaperCheckActivity extends InterventionActivity implements AnswerFragment.OnFragmentInteractionListener {
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,8 +34,10 @@ public class PastPaperCheckActivity extends InterventionActivity implements Answ
         getSupportFragmentManager().beginTransaction().add(R.id.answerContainer,answer).commit();
     }
 
-    public void addPaperPromise(){
-        //TODO:Add code to add the promise about it doing a pastpaper
+    public void addPaperPromise(View v){
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DAY_OF_MONTH,1);
+        addStudyPromise(v,cal.getTime(),"past_paper",PastPaperCheckActivity.class);
 
     }
 

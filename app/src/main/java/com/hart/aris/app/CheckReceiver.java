@@ -21,7 +21,8 @@ public class CheckReceiver extends BroadcastReceiver {
             String studyType = bundle.getString("study_type");
             String classType = bundle.getString("activity_start");
             String name = bundle.getString("name");
-            Class c =  Class.forName(classType);
+            String className = classType.substring(classType.lastIndexOf(" ")+1);
+            Class c =  Class.forName(className);
             Log.e("Class: ", classType);
             createNotification(c,context,name);
         } catch (Exception e) {

@@ -97,7 +97,8 @@ public class InterventionActivity extends FragmentActivity implements ButtonAnsw
     public boolean dateCheck(View v, Date d){
         if(lang.getDaysUntilInt(user.getDeadline())>lang.getDaysUntilInt(d)) {
             if (lang.getDaysUntilInt(d) < 14) {
-                addStudyPromise(v,d);
+                //TODO: SOrt this shit out
+                addStudyPromise(v,d,"study",PastPaperCheckActivity.class);
                 return true;
             } else {
                 clearAnswer();
@@ -112,14 +113,14 @@ public class InterventionActivity extends FragmentActivity implements ButtonAnsw
         }
     }
 
-    public void nextStudyCheck(){
+    public void nextStudyCheck(String studyType, Class activity){
         clearAnswer();
         DateAnswerFragment date = DateAnswerFragment.newInstance("dateCheck");
         getSupportFragmentManager().beginTransaction().add(R.id.answerContainer,date).commit();
     }
 
-    public void addStudyPromise(View v, Date d){
-        clearAnswer();
+    public void addStudyPromise(View v, Date d,String studyType,Class activity){
+
 
         /*Intent myIntent = new Intent(this , NotificationService.class);
         AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
@@ -132,9 +133,14 @@ public class InterventionActivity extends FragmentActivity implements ButtonAnsw
         long time = d.getTime();
 
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, time, 24*60*60*1000 , pendingIntent);  //set repeating every 24 hours*/
-
+        addPromise(studyType,activity,d);
         setArisMoodHappy();
         setArisText("I'll catch up with you " + lang.getTimePhrase(d));
+        clearAnswer();
+
+
+        ButtonAnswerFragment thanks = ButtonAnswerFragment.newInstance("Bye Aris!","closeAris","","","","");
+        getSupportFragmentManager().beginTransaction().add(R.id.answerContainer,thanks).commit();
     }
 
     public void addPromise(String StudyType,Class activity,Date d){
@@ -142,6 +148,13 @@ public class InterventionActivity extends FragmentActivity implements ButtonAnsw
         Calendar cal = Calendar.getInstance();
         // add 5 minutes to the calendar object
         cal.add(Calendar.MINUTE, 1);
+        Calendar deadline = Calendar.getInstance();
+        deadline.setTime(d);
+        int day= deadline.get(Calendar.DAY_OF_MONTH);
+        int month = deadline.get(Calendar.MONTH);
+        int year = deadline.get(Calendar.YEAR);
+        Calendar deadlineTime = Calendar.getInstance();
+        deadlineTime.set(year,month,day,15,0,0);
         Intent intent = new Intent(this, CheckReceiver.class);
         intent.putExtra("activity_start", activity.toString());
         intent.putExtra("study_type", StudyType);
@@ -151,7 +164,7 @@ public class InterventionActivity extends FragmentActivity implements ButtonAnsw
 
         // Get the AlarmManager service
         AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
-        am.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), sender);
+        am.set(AlarmManager.RTC_WAKEUP, deadlineTime.getTimeInMillis(), sender);
 
     }
 

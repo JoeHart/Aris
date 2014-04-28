@@ -63,7 +63,6 @@ public class WelcomeActivity extends InterventionActivity implements AnswerFragm
         setArisMoodHappy();
         clearAnswer();
         user.setDeadline(d);
-
         setArisText(lang.getTimeReaction(d) + " How do you feel?");
 
         ButtonAnswerFragment readyAnswer = ButtonAnswerFragment.newInstance("I'm confident","confidentResponse", "I should be fine","fineResponse", "I'm screwed","screwedResponse");
@@ -88,8 +87,6 @@ public class WelcomeActivity extends InterventionActivity implements AnswerFragm
 
         setArisText("Don't worry " + user.getName()+ ", with me you'll be more than fine. When are you studying next?");
         setWelcomeComplete();
-        DateAnswerFragment date = DateAnswerFragment.newInstance("addStudyPromise");
-        getSupportFragmentManager().beginTransaction().add(R.id.answerContainer,date).commit();
         nextStudyCheck();
     }
 
